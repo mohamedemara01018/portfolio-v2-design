@@ -1,0 +1,10 @@
+@import './fonts.css';
+@import "tailwindcss";
+@import './theme.css';
+
+.wrapper {
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2rem);
+  width: 100%;
+  max-width: clamp(320px, 92vw, 1440px);
+}
