@@ -1,9 +1,9 @@
 import { Code2, Download, Github, Linkedin, LinkedinIcon, Trophy } from 'lucide-react'
-import React from 'react'
+
 
 function HeroSection() {
     return (
-        <div className='min-h-screen flex items-center justify-center pt-20 px-6 '>
+        <section id='home' className='min-h-screen flex items-center justify-center pt-20 px-6 '>
             <div className='wrapper flex items-center justify-between gap-10 max-lg:flex-col '>
                 <div className='space-y-6'>
                     <div className='space-y-4'>
@@ -82,7 +82,7 @@ function HeroSection() {
                     </div>
                 </div>
             </div >
-        </div >
+        </section >
     )
 }
 
