@@ -7,16 +7,16 @@ interface DashboardSidebarProbs {
   className: string
 }
 function DashboardSidebar({ className }: DashboardSidebarProbs) {
-  const [activeLink, setActiveLink] = useState('Dashboard');
+  const [activeLink, setActiveLink] = useState('Hero Section');
   const navItems = [
     { icon: Home, label: "Hero Section", href: "admin" },
-    { icon: FolderGit2, label: "Projects", href: "projects" },
-    { icon: FileText, label: "Blog Posts", href: "blog" },
-    { icon: Award, label: "Skills", href: "skills" },
-    { icon: Briefcase, label: "Experience", href: "experience" },
-    { icon: MessageSquare, label: "Messages", href: "messages" },
-    { icon: Settings, label: "Settings", href: "settings" },
+    { icon: FolderGit2, label: "Projects", href: "admin/projects" },
+    { icon: FileText, label: "Blog Posts", href: "admin/blogs" },
+    { icon: Award, label: "Skills", href: "admin/skills" },
+    { icon: Briefcase, label: "Experience", href: "admin/experiences" },
+    { icon: MessageSquare, label: "Messages", href: "admin/messages" },
   ];
+
   return (
     <div className={`fixed top-0 bottom-0 left-0 p-4 w-70 bg-background dark:bg-(--portfolio-bg-secondary) border border-r border-border  shadow-sm ${className}`}>
       <div className='flex flex-col justify-between  h-full'>
@@ -34,10 +34,10 @@ function DashboardSidebar({ className }: DashboardSidebarProbs) {
           <div className='w-full'>
             <ul className='space-y-2'>
               {
-                navItems && navItems.map((item) => {
+                navItems && navItems.map((item, idx) => {
                   const Icon = item.icon;
                   return (
-                    <li >
+                    <li key={idx}>
                       <Link
                         onClick={() => setActiveLink(item.label)}
                         href={`/${item.href}`}

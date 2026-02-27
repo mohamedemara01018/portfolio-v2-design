@@ -34,7 +34,7 @@ function DashboardProjectPage() {
                                 <th className="px-4 py-3 text-left">Views</th>
                                 <th className="px-4 py-3 text-left">Actions</th>
                             </tr>
-                        </thead>    
+                        </thead>
 
                         <tbody>
                             <tr className="border-t border-border">
@@ -82,13 +82,15 @@ function DashboardProjectPage() {
                                 <td className="px-4 py-3 text-center">
                                     0
                                 </td>
-                                <td className='px-4 py-3 space-y-2'>
-                                    <button onClick={handleEdit} className=' text-muted-foreground w-8 h-8 bg-accent rounded-md flex items-center justify-center hover:bg-(--portfolio-accent)'>
-                                        <SquarePen className='w-6 h-6' />
-                                    </button>
-                                    <button className=' text-muted-foreground w-8 h-8 bg-accent rounded-md flex items-center justify-center hover:bg-destructive'>
-                                        <Trash className='w-6 h-6' />
-                                    </button>
+                                <td className='px-4 py-3'>
+                                    <div className="flex items-center justify-end gap-1">
+                                        <button className='text-muted-foreground w-8 h-8 hover:bg-accent rounded-md flex items-center justify-center transition-colors'>
+                                            <SquarePen className='w-4 h-4' />
+                                        </button>
+                                        <button className='text-muted-foreground w-8 h-8 hover:bg-destructive hover:text-destructive-foreground rounded-md flex items-center justify-center transition-colors'>
+                                            <Trash className='w-4 h-4' />
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>

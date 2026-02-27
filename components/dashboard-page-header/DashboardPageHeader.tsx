@@ -1,4 +1,5 @@
 import { LucideIcon, Plus } from 'lucide-react'
+import Link from 'next/link'
 import { ReactNode } from 'react'
 
 interface DashboardPageHeaderProbs {
@@ -6,8 +7,9 @@ interface DashboardPageHeaderProbs {
   desc: string,
   action?: {
     label: string,
-    onClick: () => void,
+    onClick?: () => void,
     icon?: ReactNode
+    href?: string
   }
 }
 
@@ -19,11 +21,16 @@ function DashboardPageHeader({ title, desc, action }: DashboardPageHeaderProbs) 
         <p className='text-muted-foreground'>{desc}</p>
       </div>
       {
-        action && <button onClick={action.onClick} className='flex gap-2 items-center py-2 px-4  rounded-md bg-(--portfolio-accent) hover:bg-(--portfolio-accent-hover) text-white'>
+        !action?.href && action ? <button onClick={action.onClick} className='flex gap-2 items-center py-2 px-4  rounded-md bg-(--portfolio-accent) hover:bg-(--portfolio-accent-hover) text-white'>
           {action.icon}
           {action?.label}
-        </button>
+        </button> : action && action.href && <Link href={action.href} className='flex gap-2 items-center py-2 px-4  rounded-md bg-(--portfolio-accent) hover:bg-(--portfolio-accent-hover) text-white cursor-pointer'>
+          {action.icon}
+          {action.label}
+        </Link>
+
       }
+
     </div>
   )
 }
