@@ -6,9 +6,9 @@ import React, { useState } from 'react'
 interface SearchInputProbs {
     id: string,
     placeholder: string,
-    onClick: () => void
+    search: (title: string) => void
 }
-function SearchInput({ id, placeholder, onClick }: SearchInputProbs) {
+function SearchInput({ id, placeholder, search }: SearchInputProbs) {
     const [isFoucs, setFoucs] = useState(false)
 
     return (
@@ -16,7 +16,15 @@ function SearchInput({ id, placeholder, onClick }: SearchInputProbs) {
             <label htmlFor={id}>
                 <Search className='text-muted-foreground w-5 h-5' />
             </label>
-            <input id={id} type="text" className='border-none outline-none w-full' placeholder={placeholder} onFocus={() => setFoucs(true)} onBlur={() => setFoucs(false)} onClick={onClick} />
+            <input
+                id={id}
+                type="text"
+                placeholder={placeholder}
+                onFocus={() => setFoucs(true)}
+                onBlur={() => setFoucs(false)}
+                onChange={(e) => search(e.target.value)}
+                className='border-none outline-none w-full'
+            />
         </div>
     )
 }

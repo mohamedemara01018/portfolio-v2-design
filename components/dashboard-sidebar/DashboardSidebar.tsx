@@ -11,6 +11,7 @@ function DashboardSidebar({ className }: DashboardSidebarProbs) {
   const navItems = [
     { icon: Home, label: "Hero Section", href: "admin" },
     { icon: FolderGit2, label: "Projects", href: "admin/projects" },
+    { icon: Award, label: "Certificates", href: "admin/certificates" },
     { icon: FileText, label: "Blog Posts", href: "admin/blogs" },
     { icon: Award, label: "Skills", href: "admin/skills" },
     { icon: Briefcase, label: "Experience", href: "admin/experiences" },
