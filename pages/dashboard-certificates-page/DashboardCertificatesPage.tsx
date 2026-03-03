@@ -5,33 +5,19 @@ import SearchInput from '@/components/search-input/SearchInput';
 import { Plus, SquarePen, Trash, ExternalLink } from 'lucide-react';
 import { CertificateService, CertificateData } from '@/services/certificate.service';
 import CertificateDialog from '@/components/certificate-dialog/CertificateDialog';
+import { useRouter } from 'next/navigation';
+import Notification, { NotificationState } from '@/components/notification/Notification';
 
-function DashboardCertificatesPage() {
-    const [certificates, setCertificates] = useState<CertificateData[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+function DashboardCertificatesPage({ certificates }: { certificates: CertificateData[] }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [isOpen, setOpen] = useState(false);
     const [isEdit, setEdit] = useState(false);
     const [currentCertificate, setCurrentCertificate] = useState<CertificateData | null>(null);
+    const [notification, setNotification] = useState<NotificationState | null>(null);
 
-    const fetchCertificates = async () => {
-        setIsLoading(true);
-        try {
-            const result = await CertificateService.getAllCertificates();
-            // Handle different possible response structures
-            const certsArray = result.data?.certificates || result.data || [];
-            setCertificates(Array.isArray(certsArray) ? certsArray : []);
-        } catch (error) {
-            console.error("Error fetching certificates:", error);
-            // toast.error("Failed to load certificates");
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    const router = useRouter();
 
-    useEffect(() => {
-        fetchCertificates();
-    }, []);
+
 
     const handleAdd = () => {
         setEdit(false);
@@ -49,8 +35,11 @@ function DashboardCertificatesPage() {
         if (window.confirm("Are you sure you want to delete this certificate?")) {
             try {
                 await CertificateService.deleteCertificate(id);
-                setCertificates(prev => prev.filter(c => c._id !== id));
-                // toast.success("Certificate deleted successfully");
+                setNotification({
+                    message: `certificate deleted successfully`,
+                    type: 'success'
+                })
+                router.refresh();
             } catch (error) {
                 console.error("Error deleting certificate:", error);
                 // toast.error("Failed to delete certificate");
@@ -62,16 +51,25 @@ function DashboardCertificatesPage() {
         try {
             if (isEdit && currentCertificate?._id) {
                 await CertificateService.updateCertificate(currentCertificate._id, formData);
-                // toast.success("Certificate updated successfully");
+                setNotification({
+                    message: `Certificate updated successfully`,
+                    type: 'success'
+                })
             } else {
                 await CertificateService.createCertificate(formData);
-                // toast.success("Certificate created successfully");
+                setNotification({
+                    message: `Certificate created successfully`,
+                    type: 'success'
+                })
             }
             setOpen(false);
-            fetchCertificates();
+            router.refresh();
         } catch (error) {
             console.error("Error saving certificate:", error);
-            // toast.error("Failed to save certificate");
+            setNotification({
+                message: `Failed to save certificate`,
+                type: 'error'
+            })
         }
     };
 
@@ -91,7 +89,7 @@ function DashboardCertificatesPage() {
             <SearchInput
                 id='search-certificates'
                 placeholder='Search certificates by title or organization...'
-                onClick={() => { }}
+                search={setSearchTerm}
             // @ts-ignore - assuming SearchInput supports value/onChange or just use native if not
             />
 
@@ -101,17 +99,17 @@ function DashboardCertificatesPage() {
                         <tr>
                             <th className="px-4 py-3 text-left">Image</th>
                             <th className="px-4 py-3 text-left">Title</th>
+                            <th className="px-4 py-3 text-left">Description</th>
                             <th className="px-4 py-3 text-left">Organization</th>
                             <th className="px-4 py-3 text-left">Issue Date</th>
-                            <th className="px-4 py-3 text-left">Status</th>
+                            <th className="px-4 py-3 text-left">credential id</th>
+                            <th className="px-4 py-3 text-left">credential link</th>
                             <th className="px-4 py-3 text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {isLoading ? (
-                            <tr><td colSpan={6} className="px-4 py-8 text-center text-muted-foreground">Loading certificates...</td></tr>
-                        ) : filteredCertificates.length === 0 ? (
-                            <tr><td colSpan={6} className="px-4 py-8 text-center text-muted-foreground">No certificates found.</td></tr>
+                        {filteredCertificates.length === 0 ? (
+                            <tr><td colSpan={8} className="px-4 py-8 text-center text-muted-foreground">No certificates found.</td></tr>
                         ) : (
                             filteredCertificates.map((cert) => (
                                 <tr key={cert._id} className="border-t border-border hover:bg-accent/50 transition-colors">
@@ -125,22 +123,27 @@ function DashboardCertificatesPage() {
                                         </div>
                                     </td>
                                     <td className="px-4 py-3 font-medium">{cert.title}</td>
+                                    <td className="px-4 py-3 font-medium max-w-40 truncate">{cert.description}</td>
                                     <td className="px-4 py-3">{cert.organization}</td>
                                     <td className="px-4 py-3">
                                         {cert.date ? new Date(cert.date).toLocaleDateString() : 'N/A'}
                                     </td>
                                     <td className="px-4 py-3">
-                                        <span className={`px-2 py-1 rounded-full text-xs ${cert.isPublished ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'}`}>
-                                            {cert.isPublished ? 'Published' : 'Draft'}
+                                        <span className={`px-2 py-1 rounded-full text-xs `}>
+                                            {cert.credentialId}
                                         </span>
                                     </td>
+                                    <td className="px-4 py-3">
+                                        <span className={`px-2 py-1 rounded-full text-xs `}>
+                                            <a href={cert.certificateLink} target="_blank" rel="noopener noreferrer" className=' text-muted-foreground w-8 h-8 hover:bg-accent rounded-md flex items-center justify-center transition-colors'>
+                                                <ExternalLink className='w-4 h-4' />
+                                            </a>
+                                        </span>
+                                    </td>
+
                                     <td className='px-4 py-3'>
                                         <div className="flex items-center justify-end gap-1">
-                                            {cert.certificateLink && (
-                                                <a href={cert.certificateLink} target="_blank" rel="noopener noreferrer" className='text-muted-foreground w-8 h-8 hover:bg-accent rounded-md flex items-center justify-center transition-colors'>
-                                                    <ExternalLink className='w-4 h-4' />
-                                                </a>
-                                            )}
+
                                             <button onClick={() => handleEdit(cert)} className='text-muted-foreground w-8 h-8 hover:bg-accent rounded-md flex items-center justify-center transition-colors'>
                                                 <SquarePen className='w-4 h-4' />
                                             </button>
@@ -163,6 +166,7 @@ function DashboardCertificatesPage() {
                 initialData={currentCertificate}
                 onSubmit={handleSubmit}
             />
+            <Notification notification={notification} onClose={() => setNotification(null)} />
         </div>
     );
 }

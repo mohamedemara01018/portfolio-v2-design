@@ -7,9 +7,8 @@ export interface CertificateData {
     date: string;
     description: string;
     credentialId: string;
-    certificateLink?: string;
-    coverImage?: File | string | null;
-    isPublished?: boolean;
+    certificateLink: string;
+    coverImage: File | string | null;
     createdAt?: string;
     updatedAt?: string;
 }

@@ -5,7 +5,7 @@ interface InputFileProbs {
     id: string,
     label: string,
     name: string,
-    onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
 function InputFile({ id, label, name, onChange }: InputFileProbs) {
