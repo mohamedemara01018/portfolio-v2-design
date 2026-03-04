@@ -9,12 +9,13 @@ import { CertificateData } from '@/services/certificate.service';
 interface CertificateDialogProps {
     isOpen: boolean;
     isEdit: boolean;
+    isLoading: boolean;
     setOpen: (val: boolean) => void;
     initialData?: CertificateData | null;
     onSubmit: (formData: FormData) => void;
 }
 
-function CertificateDialog({ isOpen, isEdit, setOpen, initialData, onSubmit }: CertificateDialogProps) {
+function CertificateDialog({ isOpen, isEdit, isLoading, setOpen, initialData, onSubmit }: CertificateDialogProps) {
     const [formData, setFormData] = useState<CertificateData>({
         title: "",
         organization: "",
@@ -109,8 +110,8 @@ function CertificateDialog({ isOpen, isEdit, setOpen, initialData, onSubmit }: C
 
                     <div className='flex items-center justify-end gap-4 pt-4'>
                         <button type='button' onClick={() => setOpen(false)} className='w-25 p-2 border border-border rounded-md hover:bg-accent hover:scale-105 transition duration-300'>Cancel</button>
-                        <button type="submit" className='w-25 p-2 border border-border rounded-md bg-(--portfolio-accent) hover:bg-(--portfolio-accent-hover) hover:scale-105 transition duration-300 text-white'>
-                            {isEdit ? 'Update' : 'Create'}
+                        <button type="submit" className='w-fit p-2 border border-border rounded-md bg-(--portfolio-accent) hover:bg-(--portfolio-accent-hover) hover:scale-105 transition duration-300 text-white'>
+                            {isLoading ? 'processing...' : isEdit ? 'Update' : 'Create'}
                         </button>
                     </div>
                 </form>

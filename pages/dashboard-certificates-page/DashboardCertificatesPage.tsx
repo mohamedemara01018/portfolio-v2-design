@@ -14,7 +14,7 @@ function DashboardCertificatesPage({ certificates }: { certificates: Certificate
     const [isEdit, setEdit] = useState(false);
     const [currentCertificate, setCurrentCertificate] = useState<CertificateData | null>(null);
     const [notification, setNotification] = useState<NotificationState | null>(null);
-
+    const [isLoading, setLoading] = useState(false);
     const router = useRouter();
 
 
@@ -48,6 +48,7 @@ function DashboardCertificatesPage({ certificates }: { certificates: Certificate
     };
 
     const handleSubmit = async (formData: FormData) => {
+        setLoading(true);
         try {
             if (isEdit && currentCertificate?._id) {
                 await CertificateService.updateCertificate(currentCertificate._id, formData);
@@ -70,6 +71,8 @@ function DashboardCertificatesPage({ certificates }: { certificates: Certificate
                 message: `Failed to save certificate`,
                 type: 'error'
             })
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -162,6 +165,7 @@ function DashboardCertificatesPage({ certificates }: { certificates: Certificate
             <CertificateDialog
                 isOpen={isOpen}
                 isEdit={isEdit}
+                isLoading={isLoading}
                 setOpen={setOpen}
                 initialData={currentCertificate}
                 onSubmit={handleSubmit}
