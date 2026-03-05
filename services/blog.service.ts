@@ -2,6 +2,7 @@ import { baseUrl } from '../utils/baseUrl'
 
 
 export interface blogData {
+    _id?: string,
     coverImage: File | string | null,
     title: string,
     content: string,
@@ -30,7 +31,7 @@ export const blogService = {
         }
     },
 
-    getBlogById: async (id: number) => {
+    getBlogById: async (id: string) => {
 
         try {
             let response = await fetch(`${baseUrl}/blogs/${id}`);
@@ -64,7 +65,7 @@ export const blogService = {
         }
     },
 
-    updateBlog: async (id: number, formData: FormData) => {
+    updateBlog: async (id: string, formData: FormData) => {
         try {
             let response = await fetch(`${baseUrl}/blogs/${id}`, {
                 method: "PUT",
@@ -83,7 +84,7 @@ export const blogService = {
         }
     },
 
-    deleteBlog: async (id: number) => {
+    deleteBlog: async (id: string) => {
 
         try {
             let response = await fetch(`${baseUrl}/blogs/${id}`, {
