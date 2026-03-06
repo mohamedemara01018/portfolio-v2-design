@@ -64,7 +64,7 @@ function CertificateDialog({ isOpen, isEdit, isLoading, setOpen, initialData, on
     };
 
     const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+        e.preventDefault(); 
         const data = new FormData();
         Object.keys(formData).forEach(key => {
             if (key === 'coverImage') {

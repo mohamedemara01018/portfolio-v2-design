@@ -16,7 +16,7 @@ interface ProjectDialogProbs {
 }
 
 function ProjectDialog({ isOpen, isEdit, loading, setOpen, onSubmit, project }: ProjectDialogProbs) {
-    console.log(project)
+
     const [technology, setTechnology] = useState('');
     const [formData, setFormData] = useState<Project>({ ...project });
 

@@ -5,29 +5,63 @@ import { Plus, SquarePen, Trash } from 'lucide-react'
 import { useState } from 'react';
 
 import SkillDialog from '@/components/skill-dialog/SkillDialog';
+import { SkillsData, SkillService } from '@/services/skill.service';
+import { useRouter } from 'next/navigation';
+import Notification, { NotificationState } from '@/components/notification/Notification';
 
-function DashboardSkillsPage() {
+function DashboardSkillsPage({ skills }: { skills: SkillsData[] }) {
     const [isOpen, setOpen] = useState(false);
     const [isEdit, setEdit] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [notification, setNotification] = useState<NotificationState | null>(null)
+    const [skill, setSkill] = useState<SkillsData>({
+        name: "",
+        category: '',
+        level: 0,
+        icon: "",
+    });
 
-    const handleEdit = () => {
+    const router = useRouter();
+
+    const handleEdit = (skill: SkillsData) => {
         setEdit(true);
         setOpen(true);
+        setSkill(skill)
+
     };
 
     const handleCreate = () => {
         setEdit(false);
         setOpen(true);
+        setSkill({
+            name: "",
+            category: '',
+            level: 0,
+            icon: "",
+        })
+
     };
 
-    const skills = [
-        { name: 'React', category: 'Frontend', level: 95, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg' },
-        { name: 'TypeScript', category: 'Frontend', level: 90, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg' },
-        { name: 'Node.js', category: 'Backend', level: 85, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg' },
-        { name: 'Tailwind CSS', category: 'Frontend', level: 92, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg' },
-        { name: 'PostgreSQL', category: 'Backend', level: 80, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg' },
-        { name: 'Docker', category: 'DevOps', level: 75, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg' },
-    ];
+    const deleteSkill = async (id: string) => {
+        try {
+            if (confirm('are you sure to delete this skill')) {
+                await SkillService.deleteSkill(id);
+                setNotification({ message: 'success delete notification', type: 'success' })
+            }
+        } catch (error: any) {
+            console.error(error.message || 'Error delete skill');
+            setNotification({ message: 'Error delete notification', type: 'error' })
+        } finally {
+            router.refresh();
+        }
+    }
+
+    const filteredSkills = skills.filter((skill) => {
+        return skill.name.toLowerCase().includes(searchTerm) ||
+            skill.category.toLowerCase().includes(searchTerm);
+
+    })
+
 
     return (
         <>
@@ -38,7 +72,7 @@ function DashboardSkillsPage() {
                     action={{ label: 'Add Skill', icon: <Plus className="w-4 h-4" />, onClick: handleCreate }}
                 />
 
-                <SearchInput id='searchskills' placeholder='Search skills...' onClick={() => { }} />
+                <SearchInput id='searchskills' placeholder='Search skills...' search={setSearchTerm} />
 
                 <div className='w-full overflow-x-auto '>
                     <table className="min-w-full border border-border rounded-md text-sm">
@@ -52,45 +86,48 @@ function DashboardSkillsPage() {
                         </thead>
 
                         <tbody>
-                            {skills.map((skill, idx) => (
-                                <tr key={idx} className="border-t border-border">
-                                    <td className="px-4 py-3 font-medium">
-                                        <div className="flex items-center gap-3">
-                                            <img src={skill.icon} alt={skill.name} className="w-6 h-6 object-contain" />
-                                            {skill.name}
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-3 text-center">
-                                        <span className="bg-transparent text-xs rounded-full px-3 py-1 border border-border text-foreground font-medium">
-                                            {skill.category}
-                                        </span>
-                                    </td>
-                                    <td className="px-4 py-3">
-                                        <div className="flex items-center gap-3">
-                                            <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                                                <div className="h-full bg-[color:var(--portfolio-accent)] rounded-full transition-all duration-500" style={{ width: `${skill.level}%` }}></div>
+                            {filteredSkills.length == 0 ?
+                                <tr><td colSpan={8} className="px-4 py-8 text-center text-muted-foreground">No skills found.</td></tr>
+                                : filteredSkills.map((skill, idx) => (
+                                    <tr key={idx} className="border-t border-border">
+                                        <td className="px-4 py-3 font-medium">
+                                            <div className="flex items-center gap-3">
+                                                <img src={typeof skill.icon == 'string' ? skill.icon : 'https://images.pexels.com/photos/417458/pexels-photo-417458.jpeg'} alt={skill.name} className="w-6 h-6 object-contain" />
+                                                {skill.name}
                                             </div>
-                                            <span className="text-sm text-muted-foreground w-8">{skill.level}%</span>
-                                        </div>
-                                    </td>
-                                    <td className='px-4 py-3'>
-                                        <div className="flex items-center justify-end gap-1">
-                                            <button onClick={handleEdit} className='text-muted-foreground w-8 h-8 hover:bg-accent rounded-md flex items-center justify-center transition-colors'>
-                                                <SquarePen className='w-4 h-4' />
-                                            </button>
-                                            <button className='text-muted-foreground w-8 h-8 hover:bg-destructive hover:text-destructive-foreground rounded-md flex items-center justify-center transition-colors'>
-                                                <Trash className='w-4 h-4' />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
+                                        </td>
+                                        <td className="px-4 py-3 text-center">
+                                            <span className="bg-transparent text-xs rounded-full px-3 py-1 border border-border text-foreground font-medium">
+                                                {skill.category}
+                                            </span>
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            <div className="flex items-center gap-3">
+                                                <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+                                                    <div className="h-full bg-(--portfolio-accent) rounded-full transition-all duration-500" style={{ width: `${skill.level}%` }}></div>
+                                                </div>
+                                                <span className="text-sm text-muted-foreground w-8">{skill.level}%</span>
+                                            </div>
+                                        </td>
+                                        <td className='px-4 py-3'>
+                                            <div className="flex items-center justify-end gap-1">
+                                                <button onClick={() => handleEdit(skill)} className='text-muted-foreground w-8 h-8 hover:bg-accent rounded-md flex items-center justify-center transition-colors'>
+                                                    <SquarePen className='w-4 h-4' />
+                                                </button>
+                                                <button onClick={() => deleteSkill(skill._id!)} className='text-muted-foreground w-8 h-8 hover:bg-destructive hover:text-destructive-foreground rounded-md flex items-center justify-center transition-colors'>
+                                                    <Trash className='w-4 h-4' />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <SkillDialog isOpen={isOpen} isEdit={isEdit} setOpen={setOpen} />
+            <SkillDialog isOpen={isOpen} isEdit={isEdit} setOpen={setOpen} skill={skill} setNotification={setNotification} />
+            <Notification notification={notification} onClose={() => setNotification(null)} />
         </>
     )
 }
