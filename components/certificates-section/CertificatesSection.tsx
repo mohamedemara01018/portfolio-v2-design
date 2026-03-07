@@ -1,33 +1,19 @@
 'use client';
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import TitleOfSection from '../title-of-section/TitleOfSection'
 import { ExternalLink, Award, Calendar } from 'lucide-react'
 import { CertificateService, CertificateData } from '@/services/certificate.service'
 
-function CertificatesSection() {
-    const [certificates, setCertificates] = useState<CertificateData[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+interface CertificatesSectionProps {
+    certificates: CertificateData[];
+}
 
-    useEffect(() => {
-        const fetchCertificates = async () => {
-            try {
-                const result = await CertificateService.getAllCertificates();
-                // Handle different possible response structures
-                const certsArray = result.data?.certificates || result.data || [];
-                const finalArray = Array.isArray(certsArray) ? certsArray : [];
-                // Filter only published ones if the API doesn't do it
-                setCertificates(finalArray.filter((c: CertificateData) => c.isPublished));
-            } catch (error) {
-                console.error("Error fetching certificates:", error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetchCertificates();
-    }, []);
+function CertificatesSection({ certificates }: CertificatesSectionProps) {
 
-    if (!isLoading && certificates.length === 0) return null;
-
+    // The isLoading state is removed, so we only check if certificates are empty.
+    // If the component receives an empty array, it should return null.
+    if (certificates.length === 0) return null;
+    // console.log(certificates)
     return (
         <section id='certificates' className='py-24 bg-portfolio-bg-secondary/50'>
             <div className='wrapper flex flex-col items-center gap-8'>
@@ -37,13 +23,13 @@ function CertificatesSection() {
                 </div>
 
                 <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8 w-full'>
-                    {isLoading ? (
-                        Array.from({ length: 3 }).map((_, idx) => (
-                            <div key={idx} className="h-[400px] bg-card/50 animate-pulse rounded-xl border border-border"></div>
-                        ))
+                    {!certificates || certificates.length === 0 ? (
+                        <div className="text-center w-full py-12 text-muted-foreground col-span-full">
+                            No certificates to display.
+                        </div>
                     ) : (
                         certificates.map((cert) => (
-                            <div key={cert._id} className='group bg-card rounded-xl overflow-hidden border border-border hover:border-(--portfolio-accent) hover:-translate-y-1 transition-all duration-300 shadow-(--portfolio-shadow) hover:shadow-(--portfolio-glow) flex flex-col'>
+                            <div key={cert._id} className='group bg-card rounded-xl overflow-hidden border border-border hover:border-(--portfolio-accent) hover:-translate-y-1 transition-all duration-300 shadow-[color:var(--portfolio-shadow)] hover:shadow-[color:var(--portfolio-glow)] flex flex-col'>
                                 <div className='relative aspect-video overflow-hidden bg-muted'>
                                     {cert.coverImage ? (
                                         <img

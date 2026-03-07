@@ -13,7 +13,7 @@ function DashboardHeader() {
                     <h1>Mohamed Emara</h1>
                 </div>
                 <div className='flex gap-4'>
-                    <SearchInput id='search' placeholder='search...' onClick={() => { }} />
+                    <SearchInput id='search' placeholder='search...' search={() => { }} />
                     <ThemeToggle />
                 </div>
             </div >

@@ -2,8 +2,13 @@ import { Code, Palette, Users, Zap } from 'lucide-react';
 import React from 'react'
 import TitleOfSection from '../title-of-section/TitleOfSection';
 
+import { ProfileInfoData } from '@/services/profileInfo.service';
 
-function AboutSection() {
+interface AboutSectionProps {
+    profileInfo: ProfileInfoData | null;
+}
+
+function AboutSection({ profileInfo }: AboutSectionProps) {
     const highlights = [
         {
             icon: Code,
@@ -30,23 +35,32 @@ function AboutSection() {
         <section id='about' className='bg-(--portfolio-bg-secondary) py-24 '>
             <div className=' wrapper flex flex-col gap-20 items-center'>
                 <TitleOfSection title='About Me' />
-                <div className='flex gap-16 items-center justify-between max-lg:flex-col'>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-16 items-center justify-between max-lg:flex-col'>
                     <div>
                         <img
-                            className='w-400 rounded-2xl'
-                            src="https://images.pexels.com/photos/35962569/pexels-photo-35962569.jpeg" alt="" />
+                            className='w-[600px] max-h-[400px] object-cover rounded-2xl'
+                            src={"https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg"} alt="Profile avatar" />
                     </div>
                     <div className="space-y-6">
-                        <p className="text-lg text-muted-foreground leading-relaxed">
-                            With over 5 years of experience in web development, I specialize in creating
-                            modern, responsive applications using React, TypeScript, and Node.js. My journey
-                            in tech started with a curiosity for building things that solve real problems.
-                        </p>
+                        {profileInfo?.bio ? (
+                            <p className="text-lg text-muted-foreground leading-relaxed">
+                                {profileInfo.bio}
+                            </p>
+                        ) : (
+                            <p className="text-lg text-muted-foreground leading-relaxed">
+                                With over 5 years of experience in web development, I specialize in creating
+                                modern, responsive applications using React, TypeScript, and Node.js. My journey
+                                in tech started with a curiosity for building things that solve real problems.
+                            </p>
+                        )}
+
+
                         <p className="text-lg text-muted-foreground leading-relaxed">
                             I'm passionate about staying up-to-date with the latest technologies and best
                             practices. When I'm not coding, you'll find me contributing to open-source
                             projects or writing technical articles to help other developers.
                         </p>
+
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
                             {highlights.map((item, index) => {

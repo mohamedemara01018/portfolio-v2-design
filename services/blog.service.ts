@@ -9,7 +9,8 @@ export interface blogData {
     excerpt: string,
     tags: string[],
     published: boolean,
-    views: number
+    views: number,
+    createdAt: Date
 }
 
 

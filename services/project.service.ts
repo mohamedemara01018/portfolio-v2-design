@@ -1,5 +1,16 @@
 import { baseUrl } from "@/utils/baseUrl"
-
+export interface ProjectData {
+    _id?: string;
+    title: string;
+    description: string;
+    category: "frontend" | "backend" | "fullstack" | string; // يمكنك تحديد التصنيفات المتاحة
+    coverImage: string;
+    featured: boolean;
+    githubUrl: string;
+    liveUrl: string;
+    technologies: string[]; // مصفوفة التقنيات المستخدمة
+    views?: number;
+}
 
 export const projectService = {
 

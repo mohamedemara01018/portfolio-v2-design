@@ -47,10 +47,9 @@ function DashboardProjectPage({ projects }: { projects: Project[] }) {
 
 
 
-    const filteredProjects = projects.filter((project) => {
-        return project.title.toLowerCase().includes(searchTerm.toLowerCase())
-            || project.technologies.includes(searchTerm)
-
+    const filteredProjects = (projects || []).filter((project) => {
+        return project.title?.toLowerCase().includes(searchTerm.toLowerCase())
+            || (project.technologies || []).includes(searchTerm)
     })
 
 

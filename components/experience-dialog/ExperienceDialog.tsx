@@ -1,20 +1,55 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useState, useEffect } from 'react'
 import DialogHeader from '../dialog-header/DialogHeader'
 import InputForm from '../input-form/InputForm'
 import TextareaForm from '../textarea-form/TextareaForm'
+import { ExperienceData } from '@/services/experiance.service'
 
-function ExperienceDialog({ isOpen, isEdit, setOpen }: { isOpen: boolean, isEdit: boolean, setOpen: (val: boolean) => void }) {
+interface ExperienceDialogProps {
+    isOpen: boolean;
+    isEdit: boolean;
+    setOpen: (val: boolean) => void;
+    selectedExperience?: ExperienceData | null;
+    onSave: (data: ExperienceData) => Promise<void>;
+}
+
+function ExperienceDialog({ isOpen, isEdit, setOpen, selectedExperience, onSave }: ExperienceDialogProps) {
     const [technology, setTechnology] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const [formData, setFormData] = useState({
-        company: "Google",
-        role: "Frontend Developer",
-        description: "Worked on building scalable web applications using React and improving performance and UI consistency.",
-        startDate: "2022-06-01",
-        endDate: "2024-01-01",
+        company: "",
+        role: "",
+        description: "",
+        startDate: "",
+        endDate: "",
         current: false,
-        technologies: ["React", "TypeScript", "Next.js", "Tailwind CSS"]
+        technologies: [] as string[]
     });
+
+    useEffect(() => {
+        if (isOpen && isEdit && selectedExperience) {
+            setFormData({
+                company: selectedExperience.company || '',
+                role: selectedExperience.role || '',
+                description: selectedExperience.description || '',
+                startDate: selectedExperience.startDate ? new Date(selectedExperience.startDate).toISOString().split('T')[0] : '',
+                endDate: selectedExperience.endDate ? new Date(selectedExperience.endDate).toISOString().split('T')[0] : '',
+                current: selectedExperience.current || false,
+                technologies: selectedExperience.technologies || []
+            });
+        } else if (isOpen && !isEdit) {
+            setFormData({
+                company: "",
+                role: "",
+                description: "",
+                startDate: "",
+                endDate: "",
+                current: false,
+                technologies: []
+            });
+        }
+        setTechnology('');
+    }, [isOpen, isEdit, selectedExperience]);
 
     const handleChange = (
         e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -63,7 +98,27 @@ function ExperienceDialog({ isOpen, isEdit, setOpen }: { isOpen: boolean, isEdit
                     onClick={() => setOpen(false)}
                 />
 
-                <form className='space-y-4' onSubmit={(e) => e.preventDefault()}>
+                <form className='space-y-4' onSubmit={async (e) => {
+                    e.preventDefault();
+                    setIsLoading(true);
+                    try {
+                        const submitData: ExperienceData = {
+                            company: formData.company,
+                            role: formData.role,
+                            description: formData.description,
+                            startDate: formData.startDate,
+                            endDate: formData.current ? null : formData.endDate,
+                            current: formData.current,
+                            technologies: formData.technologies,
+                        };
+                        await onSave(submitData);
+                        setOpen(false);
+                    } catch (error) {
+                        console.error('Error saving experience:', error);
+                    } finally {
+                        setIsLoading(false);
+                    }
+                }}>
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                         <InputForm
                             id={'role'}
@@ -136,6 +191,7 @@ function ExperienceDialog({ isOpen, isEdit, setOpen }: { isOpen: boolean, isEdit
                             name='technologies'
                             handleChange={(e) => setTechnology(e.target.value)}
                             onKeyDown={onKeyDown}
+                            required={false}
                         />
                         <div className='flex items-center gap-2 flex-wrap mt-2'>
                             {formData.technologies.map((tech, idx) => (
@@ -165,10 +221,11 @@ function ExperienceDialog({ isOpen, isEdit, setOpen }: { isOpen: boolean, isEdit
                             Cancel
                         </button>
                         <button
-                            type='button'
-                            className='w-25 p-2 border border-border rounded-md bg-[color:var(--portfolio-accent)] hover:bg-[color:var(--portfolio-accent-hover)] hover:scale-110 transition duration-300 text-white'
+                            type='submit'
+                            disabled={isLoading}
+                            className='w-25 p-2 border border-border rounded-md bg-[color:var(--portfolio-accent)] hover:bg-[color:var(--portfolio-accent-hover)] hover:scale-110 transition duration-300 text-white disabled:opacity-70 disabled:cursor-not-allowed'
                         >
-                            {isEdit ? 'Update' : 'Add'}
+                            {isLoading ? 'Saving...' : isEdit ? 'Update' : 'Add'}
                         </button>
                     </div>
                 </form>

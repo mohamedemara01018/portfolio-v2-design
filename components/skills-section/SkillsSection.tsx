@@ -1,39 +1,36 @@
 import React from 'react'
 import TitleOfSection from '../title-of-section/TitleOfSection'
 
-function SkillsSection() {
-    const skillCategories = [
-        {
-            title: "Frontend",
-            skills: [
-                { name: "React", level: 95 },
-                { name: "TypeScript", level: 90 },
-                { name: "Tailwind CSS", level: 92 },
-                { name: "Next.js", level: 88 },
-                { name: "Vue.js", level: 75 },
-            ],
-        },
-        {
-            title: "Backend",
-            skills: [
-                { name: "Node.js", level: 90 },
-                { name: "Express", level: 85 },
-                { name: "PostgreSQL", level: 82 },
-                { name: "MongoDB", level: 80 },
-                { name: "GraphQL", level: 78 },
-            ],
-        },
-        {
-            title: "Tools & Others",
-            skills: [
-                { name: "Git", level: 93 },
-                { name: "Docker", level: 80 },
-                { name: "AWS", level: 75 },
-                { name: "Figma", level: 88 },
-                { name: "Jest", level: 85 },
-            ],
-        },
-    ];
+import { SkillsData } from "@/services/skill.service"
+
+interface SkillsSectionProps {
+    skills: SkillsData[];
+}
+
+function SkillsSection({ skills }: SkillsSectionProps) {
+
+    // Ensure we have an array
+    const validSkills = Array.isArray(skills) ? skills : [];
+
+    // Grouping the skills by category
+    const groupedSkills = validSkills.reduce((acc, skill) => {
+        const category = skill.category || "Other";
+        if (!acc[category]) {
+            acc[category] = [];
+        }
+        acc[category].push(skill);
+        return acc;
+    }, {} as Record<string, SkillsData[]>);
+
+    console.log(groupedSkills);
+
+    // Transforming back to the expected array format for UI mapping
+    const skillCategories = Object.keys(groupedSkills).map((key) => ({
+        title: key,
+        skills: groupedSkills[key],
+    }));
+
+    if (validSkills.length === 0) return null;
 
     return (
         <section id='skills' className='py-24'>

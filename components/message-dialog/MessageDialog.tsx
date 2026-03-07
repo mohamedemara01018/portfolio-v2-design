@@ -1,25 +1,23 @@
 import React from 'react'
 import { X } from 'lucide-react'
 
-// Define the shape of our message object
-export interface Message {
-    id: number;
-    name: string;
-    email: string;
-    subject: string;
-    excerpt: string;
-    date: string;
-    read: boolean;
-}
+import { MessageData } from '@/services/message.service'
 
 interface MessageDialogProps {
     isOpen: boolean;
     setOpen: (val: boolean) => void;
-    message: Message | null;
+    message: MessageData | null;
+    onDelete?: () => void;
 }
 
-function MessageDialog({ isOpen, setOpen, message }: MessageDialogProps) {
+function MessageDialog({ isOpen, setOpen, message, onDelete }: MessageDialogProps) {
     if (!message) return null;
+
+    const formatDate = (dateString?: string) => {
+        if (!dateString) return 'Unknown date';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    };
 
     return (
         <div className={`fixed inset-0 bg-accent/40 flex items-center max-md:p-4 justify-center z-50 ${isOpen ? 'scale-100' : 'scale-0'} transition duration-150 shadow-sm overflow-auto`}>
@@ -42,7 +40,7 @@ function MessageDialog({ isOpen, setOpen, message }: MessageDialogProps) {
 
                 {/* Meta details */}
                 <div className="text-sm text-muted-foreground pt-2">
-                    Received: {message.date}
+                    Received: {formatDate(message.createdAt)}
                 </div>
 
                 {/* Divider */}
@@ -50,7 +48,7 @@ function MessageDialog({ isOpen, setOpen, message }: MessageDialogProps) {
 
                 {/* Message Body */}
                 <div className="text-base text-foreground leading-relaxed whitespace-pre-wrap min-h-[120px]">
-                    {message.excerpt}
+                    {message.message}
                 </div>
 
                 {/* Divider */}
@@ -59,6 +57,7 @@ function MessageDialog({ isOpen, setOpen, message }: MessageDialogProps) {
                 {/* Actions Footer */}
                 <div className="flex items-center justify-between pt-2">
                     <button
+                        onClick={onDelete}
                         className="px-4 py-2 border border-border rounded-lg text-destructive hover:bg-destructive/10 font-medium transition-colors"
                     >
                         Delete
@@ -71,11 +70,12 @@ function MessageDialog({ isOpen, setOpen, message }: MessageDialogProps) {
                         >
                             Close
                         </button>
-                        <button
+                        <a
+                            href={`mailto:${message.email}?subject=Re: ${message.subject}`}
                             className="px-6 py-2 border bg-foreground border-foreground rounded-lg text-background font-medium hover:opacity-90 transition-opacity"
                         >
                             Reply
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

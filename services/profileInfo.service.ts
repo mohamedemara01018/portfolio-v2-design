@@ -3,11 +3,20 @@ import { baseUrl } from "../utils/baseUrl";
 
 export interface ProfileInfoData {
     _id?: string;
-    description: string;
-    subDescription?: string;
-    avatar?: File | string | null;
-    resumeLink?: string;
-    [key: string]: any;
+    fullName: string;
+    title: string;
+    bio: string;
+    about: string;
+    avatar: string;
+    codeforces: string;
+    github: string;
+    leetcode: string;
+    linkedin: string;
+    location: string;
+    phone: string;
+    email: string;
+    resume: string;
+
 }
 
 export const ProfileInfoService = {

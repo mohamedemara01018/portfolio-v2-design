@@ -76,7 +76,7 @@ function DashboardCertificatesPage({ certificates }: { certificates: Certificate
         }
     };
 
-    const filteredCertificates = certificates.filter(cert =>
+    const filteredCertificates = (certificates || []).filter(cert =>
         cert.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         cert.organization.toLowerCase().includes(searchTerm.toLowerCase())
     );
