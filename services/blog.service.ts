@@ -21,9 +21,9 @@ export const blogService = {
 
         try {
             let response = await fetch(`${baseUrl}/blogs`, {
-                cache: 'no-store'
+                next: { revalidate: 0 }
             });
-            
+
             if (!response.ok) {
                 throw new Error("Failed to fetch blogs");
             }
