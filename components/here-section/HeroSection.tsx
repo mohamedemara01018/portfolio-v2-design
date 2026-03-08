@@ -65,7 +65,7 @@ function HeroSection({ profileInfo }: HeroSectionProps) {
                                 return (
                                     <a
                                         key={idx}
-                                        href={`${l.link}`}
+                                        href={l.link?.startsWith('http') ? l.link : `https://${l.link}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="p-3 rounded-lg bg-accent hover:bg-[color:var(--portfolio-accent)] hover:text-white transition-all duration-300 hover:scale-110"

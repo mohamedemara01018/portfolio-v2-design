@@ -6,6 +6,7 @@ import { ProfileInfoService } from '@/services/profileInfo.service';
 import Notification, { NotificationState } from '@/components/notification/Notification';
 import { Plus } from 'lucide-react'
 import React, { ChangeEvent, FormEvent, useRef, useState } from 'react'
+import { createProfileInfo, updateProfileInfo } from '@/utils/actions/heroSectionActions';
 
 
 
@@ -85,8 +86,9 @@ function DashboardHeroPage({ profileInfoData }: { profileInfoData: DashboardHero
             const formElement = e.currentTarget;
             const formData = new FormData(formElement)
 
-            const { status, message } = await ProfileInfoService.updateProfileInfo(formData);
-            setNotification({ message: message || 'Profile info updated successfully.', type: 'success' });
+            await updateProfileInfo(formData)
+
+            setNotification({ message: 'Profile info updated successfully.', type: 'success' });
         } catch (error: any) {
             setNotification({ message: error.message || 'Failed to update profile info.', type: 'error' });
         } finally {
@@ -101,8 +103,9 @@ function DashboardHeroPage({ profileInfoData }: { profileInfoData: DashboardHero
             const formElement = e.currentTarget;
             const formData = new FormData(formElement)
 
-            const { status, message, data } = await ProfileInfoService.createNewProfileInfo(formData);
-            setNotification({ message: message || 'Profile info created successfully.', type: 'success' });
+            await createProfileInfo(formData)
+
+            setNotification({ message: 'Profile info created successfully.', type: 'success' });
             setEmpty(false)
         } catch (error: any) {
             setNotification({ message: error.message || 'Failed to create profile info.', type: 'error' });

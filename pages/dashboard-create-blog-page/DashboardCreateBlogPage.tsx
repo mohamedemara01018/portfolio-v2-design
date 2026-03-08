@@ -23,6 +23,7 @@ function DashboardCreateBlogPage({ isEdit, blog }: { isEdit?: boolean, blog?: bl
         tags: [] as string[],
         published: false,
         views: 0,
+        createdAt: new Date(),
     });
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -107,10 +108,10 @@ function DashboardCreateBlogPage({ isEdit, blog }: { isEdit?: boolean, blog?: bl
                 });
             }
         } catch (error: any) {
-            console.error(error?.message || "Failed to create blog");
+            console.error(JSON.stringify(error) || "Failed to create blog");
 
             setNotification({
-                message: "Failed to create blog",
+                message: String(error) || "Failed to create blog",
                 type: "error",
             });
         } finally {

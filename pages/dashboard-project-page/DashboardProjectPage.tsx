@@ -4,6 +4,7 @@ import Notification, { NotificationState } from '@/components/notification/Notif
 import ProjectDialog from '@/components/project-dialog/ProjectDialog';
 import SearchInput from '@/components/search-input/SearchInput'
 import { projectService } from '@/services/project.service';
+import { createProject, updateProject } from '@/utils/actions/projectActions';
 import { Plus, SquarePen, Trash } from 'lucide-react'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -98,10 +99,10 @@ function DashboardProjectPage({ projects }: { projects: Project[] }) {
             setLoading(true)
             if (isEdit) {
                 const id = project?._id || project?.id;
-                await projectService.updateProject(id!, formData);
+                await updateProject(String(id), formData)
                 setNotification({ message: 'update project success', type: 'success' })
             } else {
-                await projectService.createNewProject(formData);
+                await createProject(formData)
                 setNotification({ message: 'create project success', type: 'success' })
             }
             setOpen(false);

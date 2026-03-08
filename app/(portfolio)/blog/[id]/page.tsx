@@ -48,11 +48,11 @@ export default async function SingleBlogPage({ params }: Props) {
                         <img
                             src={typeof blog.coverImage === 'string' ? blog.coverImage : "https://images.unsplash.com/photo-1760548425425-e42e77fa38f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjB3ZWIlMjBkZXZlbG9wbWVudCUyMGNvZGV8ZW58MXx8fHwxNzcxNDE4ODI2fDA&ixlib=rb-4.1.0&q=80&w=1080"}
                             alt={blog.title}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                         />
                         {blog.tags && blog.tags.length > 0 && (
                             <div className="absolute top-4 left-4 flex gap-2">
-                                {blog.tags.map((tag: string, index: number) => (
+                                {JSON.parse(blog.tags[0]).map((tag: string, index: number) => (
                                     <span key={index} className="px-3 py-1 text-xs font-medium bg-[color:var(--portfolio-accent)] text-white rounded-full">
                                         {tag}
                                     </span>

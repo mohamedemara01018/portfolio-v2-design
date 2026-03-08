@@ -42,15 +42,13 @@ function AboutSection({ profileInfo }: AboutSectionProps) {
                             src={"https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg"} alt="Profile avatar" />
                     </div>
                     <div className="space-y-6">
-                        {profileInfo?.bio ? (
+                        {profileInfo?.about ? (
                             <p className="text-lg text-muted-foreground leading-relaxed">
-                                {profileInfo.bio}
+                                {profileInfo.about}
                             </p>
                         ) : (
                             <p className="text-lg text-muted-foreground leading-relaxed">
-                                With over 5 years of experience in web development, I specialize in creating
-                                modern, responsive applications using React, TypeScript, and Node.js. My journey
-                                in tech started with a curiosity for building things that solve real problems.
+                                {profileInfo?.bio}
                             </p>
                         )}
 
