@@ -17,7 +17,9 @@ export const MessageService = {
      */
     getAllMessages: async () => {
         try {
-            const response = await fetch(`${baseUrl}/contacts`);
+            const response = await fetch(`${baseUrl}/contacts`, {
+                next: { revalidate: 0 }
+            });
             if (!response.ok) {
                 throw new Error("Failed to fetch messages");
             }

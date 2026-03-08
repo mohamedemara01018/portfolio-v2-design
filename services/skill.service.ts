@@ -11,7 +11,9 @@ export const SkillService = {
 
     getAllSkills: async () => {
         try {
-            let response = await fetch(`${baseUrl}/skills`);
+            let response = await fetch(`${baseUrl}/skills`, {
+                next: { revalidate: 0 }
+            });
 
             if (!response.ok) {
                 throw new Error('Failed to fetch skills');

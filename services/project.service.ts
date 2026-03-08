@@ -16,7 +16,9 @@ export const projectService = {
 
     getAllProjects: async () => {
         try {
-            const response = await fetch(`${baseUrl}/projects`);
+            const response = await fetch(`${baseUrl}/projects`, {
+                next: { revalidate: 0 }
+            });
             if (!response.ok) {
                 throw new Error('Failed to fetch projects')
             }
