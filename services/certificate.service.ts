@@ -20,7 +20,7 @@ export const CertificateService = {
     getAllCertificates: async () => {
         try {
             const response = await fetch(`${baseUrl}/certificates`, {
-                next: { revalidate: 0 }
+                cache: 'no-store'
             });
             if (!response.ok) {
                 throw new Error("Failed to fetch certificates");

@@ -21,7 +21,7 @@ export const blogService = {
 
         try {
             let response = await fetch(`${baseUrl}/blogs`, {
-                next: { revalidate: 0 }
+                cache: 'no-store'
             });
 
             if (!response.ok) {

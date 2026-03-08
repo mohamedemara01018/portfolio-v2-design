@@ -11,8 +11,8 @@ export const SkillService = {
 
     getAllSkills: async () => {
         try {
-            let response = await fetch(`${baseUrl}/skills`, {
-                next: { revalidate: 0 }
+            let response = await fetch(`${baseUrl}/skills`,{
+                cache: 'no-store'
             });
 
             if (!response.ok) {

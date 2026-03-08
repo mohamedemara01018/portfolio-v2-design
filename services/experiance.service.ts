@@ -20,7 +20,7 @@ export const ExperianceService = {
     getAllExperiance: async () => {
         try {
             const response = await fetch(`${baseUrl}/experiances`, {
-                next: { revalidate: 0 }
+                cache: 'no-store'
             });
             if (!response.ok) {
                 throw new Error("Failed to fetch experiences");

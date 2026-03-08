@@ -11,12 +11,13 @@ import { useState } from 'react';
 
 
 function DashboardBlogPage({ blogs }: { blogs: blogData[] }) {
-
+    // console.log(blogs)
     const [searchTerm, setSearchTerm] = useState('');
     const [notification, setNotification] = useState<NotificationState | null>(null);
     const [deleting, setDeleting] = useState(false)
 
     const normalizedSearch = searchTerm.toLowerCase().trim();
+
     const filteredBlogs = (blogs || []).filter((blog) => {
         return (
             blog.title?.toLowerCase().includes(normalizedSearch) ||

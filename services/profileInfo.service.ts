@@ -26,7 +26,7 @@ export const ProfileInfoService = {
     getAllProfileInfo: async () => {
         try {
             const response = await fetch(`${baseUrl}/profileinfo`, {
-                next: { revalidate: 0 }
+                cache: 'no-store'
             });
             if (!response.ok) {
                 throw new Error("Failed to fetch profile info");

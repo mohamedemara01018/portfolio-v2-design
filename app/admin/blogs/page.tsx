@@ -11,7 +11,8 @@ async function page() {
         let result = await blogService.getAllBlogs();
         let blogsArr = result.data?.blogs || result.data || [];
         blogs = Array.isArray(blogsArr) ? blogsArr : []
-        console.log(blogs)
+        // console.log(blogs)
+
     } catch (error) {
         console.error("Error fetching blogs:", error);
     }
