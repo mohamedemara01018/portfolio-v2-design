@@ -91,8 +91,8 @@ function ContactSection({ profileInfo }: HeroSectionProps) {
 
     return (
         <>
-            <section id='contact' className='py-24 overflow-hidden'>
-                <div className='wrapper space-y-16'>
+            <section id='contact' className='wrapper py-24 '>
+                <div className=' space-y-16'>
                     <motion.div
                         className='flex flex-col items-center gap-4'
                         initial={{ opacity: 0, y: -20 }}
@@ -114,10 +114,10 @@ function ContactSection({ profileInfo }: HeroSectionProps) {
                             transition={{ duration: 0.6 }}
                         >
                             <div>
-                                <h3 className="text-2xl font-bold text-foreground mb-4">
+                                <h3 className="text-2xl font-bold text-foreground mb-4 wrap-break-word">
                                     Let's Talk About Your Project
                                 </h3>
-                                <p className="text-muted-foreground leading-relaxed">
+                                <p className="text-muted-foreground leading-relaxed ">
                                     I'm always interested in hearing about new projects and opportunities.
                                     Whether you have a question or just want to say hi, feel free to reach out!
                                 </p>
@@ -137,7 +137,7 @@ function ContactSection({ profileInfo }: HeroSectionProps) {
                                             key={index}
                                             href={info.link}
                                             variants={itemVariants}
-                                            className="flex items-center gap-5 p-5 rounded-3xl bg-card border border-border hover:border-(--portfolio-accent) transition-all duration-300 group hover:shadow-(--portfolio-glow)"
+                                            className=" flex items-center gap-5 p-5 rounded-3xl bg-card border border-border hover:border-(--portfolio-accent) transition-all duration-300 group hover:shadow-(--portfolio-glow)"
                                             whileHover={{ x: 10 }}
                                             aria-label={`Contact me via ${info.title}: ${info.value}`}
                                         >
@@ -146,7 +146,9 @@ function ContactSection({ profileInfo }: HeroSectionProps) {
                                             </div>
                                             <div>
                                                 <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">{info.title}</p>
-                                                <p className="font-bold text-foreground group-hover:text-(--portfolio-accent) transition-colors">{info.value || 'N/A'}</p>
+                                                <p className={`font-bold text-foreground group-hover:[text:var(--portfolio-accent)] transition-colors ${index == 0 ? 'max-w-40 truncate' : ''} `}>
+                                                    {info.value || 'N/A'}
+                                                </p>
                                             </div>
                                         </motion.a>
                                     );

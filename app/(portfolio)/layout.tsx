@@ -8,7 +8,7 @@ export default function layout({
     children: React.ReactNode;
 }>) {
     return (
-        <div>
+        <div className="overflow-hidden">
             <Navbar />
             {children}
             <Footer />
