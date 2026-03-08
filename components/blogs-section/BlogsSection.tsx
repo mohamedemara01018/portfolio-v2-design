@@ -1,84 +1,136 @@
+'use client';
 import React from 'react'
 import TitleOfSection from '../title-of-section/TitleOfSection'
-import { ArrowRight, Calendar, Clock } from 'lucide-react';
+import { ArrowRight, Calendar, Eye } from 'lucide-react';
 import Link from 'next/link';
-import { blogData } from '@/services/blog.service';
+import Image from 'next/image';
+import { motion, Variants } from 'framer-motion'
+
+interface Blog {
+    _id?: string;
+    title: string;
+    excerpt: string;
+    content: string;
+    coverImage: string;
+    tags: string[];
+    views: number;
+    createdAt: string;
+}
 
 interface BlogsSectionProps {
-    blogs: blogData[]; // Replace with exact interface from blog.service if needed
+    blogs: Blog[];
+}
+
+const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+        }
+    }
+}
+
+const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.5,
+            ease: [0.22, 1, 0.36, 1]
+        }
+    }
 }
 
 function BlogsSection({ blogs }: BlogsSectionProps) {
-    const validBlogs = Array.isArray(blogs) ? blogs.filter(b => b.published !== false) : [];
-
-    if (validBlogs.length === 0) return null;
-    console.log(validBlogs)
     return (
-        <section id='blog' className='bg-(--portfolio-bg-secondary) py-24'>
-            <div className='wrapper space-y-12'>
-                <div className='flex flex-col items-center gap-4'>
+        <section id='blog' className='py-24 bg-card/30 overflow-hidden'>
+            <div className='wrapper space-y-16'>
+                <motion.div
+                    className='flex flex-col items-center gap-4'
+                    initial={{ opacity: 0, y: -20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                >
                     <TitleOfSection title={'Latest Articles'} />
-                    <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                        Sharing knowledge and insights from my journey in tech
+                    <p className="text-muted-foreground mt-2 max-w-2xl mx-auto text-center">
+                        Thoughts on software development, technology trends, and coding best practices
                     </p>
-                </div>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {validBlogs.slice(0, 3).map((post) => (
-                        <Link href={`/blog/${post._id}`} key={post._id} className="block group">
-                            <article
-                                className="h-full rounded-2xl bg-card border border-border hover:border-(--portfolio-accent) overflow-hidden transition-all duration-300 shadow-(color:--portfolio-shadow) hover:shadow-(color:--portfolio-glow) hover:-translate-y-1 flex flex-col"
+                </motion.div>
+
+                <motion.div
+                    className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
+                >
+                    {blogs.map((blog, index) => {
+                        let parsedTags = [];
+                        try {
+                            parsedTags = typeof blog.tags?.[0] === 'string' ? JSON.parse(blog.tags[0]) : (blog.tags || []);
+                        } catch (e) {
+                            parsedTags = blog.tags || [];
+                        }
+
+                        return (
+                            <motion.div
+                                key={index}
+                                variants={itemVariants}
+                                className='group bg-background rounded-3xl overflow-hidden border border-border hover:border-(--portfolio-accent) transition-all duration-500 hover:shadow-(--portfolio-glow) flex flex-col'
                             >
-                                <div className="relative overflow-hidden aspect-video">
-                                    <img
-                                        src={typeof post.coverImage === 'string' ? post.coverImage : "https://images.unsplash.com/photo-1760548425425-e42e77fa38f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjB3ZWIlMjBkZXZlbG9wbWVudCUyMGNvZGV8ZW58MXx8fHwxNzcxNDE4ODI2fDA&ixlib=rb-4.1.0&q=80&w=1080"}
-                                        alt={post.title}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                <div className='relative aspect-video overflow-hidden'>
+                                    <Image
+                                        src={typeof blog.coverImage === 'string' ? blog.coverImage : "https://images.unsplash.com/photo-1498050108023-c5249f4df085"}
+                                        alt={blog.title}
+                                        fill
+                                        className='object-cover group-hover:scale-110 transition-transform duration-700'
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                     />
-                                    {post.tags && post.tags.length > 0 && (
-                                        <div className="absolute top-4 left-4 ">
-                                            {
-                                                JSON.parse(post.tags[0]).map((tag: string, idx: number) => {
-                                                    return <span key={idx} className="px-3 py-1 mr-1 text-xs font-medium bg-(--portfolio-accent) text-white rounded-full">
-                                                        {tag}
-                                                    </span>
-                                                })
-                                            }
-
-                                        </div>
-                                    )}
+                                    <div className='absolute top-4 left-4 flex gap-2'>
+                                        {Array.isArray(parsedTags) && parsedTags.slice(0, 2).map((tag: string, tagIdx: number) => (
+                                            <span key={tagIdx} className='px-3 py-1 text-[10px] font-bold uppercase tracking-wider bg-black/50 text-white rounded-lg backdrop-blur-md'>
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
                                 </div>
 
-                                <div className="p-6 flex flex-col flex-1">
-                                    <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
-                                        <span className="flex items-center gap-1">
-                                            <Calendar className="w-3.5 h-3.5" />
-                                            {post.createdAt ? new Date(post.createdAt).toLocaleDateString().split('T')[0] : 'Recent'}
+                                <div className='p-8 flex flex-col flex-grow space-y-4'>
+                                    <div className='flex items-center gap-4 text-xs text-muted-foreground font-medium'>
+                                        <span className='flex items-center gap-1.5'>
+                                            <Calendar className='w-3.5 h-3.5' />
+                                            {blog.createdAt ? new Date(blog.createdAt).toLocaleDateString() : 'Recent'}
                                         </span>
-                                        <span className="flex items-center gap-1">
-                                            <Clock className="w-3.5 h-3.5" />
-                                            {Math.ceil((post.content?.length || 0) / 1000) || 5} min read
+                                        <span className='flex items-center gap-1.5'>
+                                            <Eye className='w-3.5 h-3.5' />
+                                            {blog.views || 0}
                                         </span>
                                     </div>
 
-                                    <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-(--portfolio-accent) transition-colors line-clamp-2">
-                                        {post.title}
-                                    </h3>
-                                    <p className="text-muted-foreground mb-4 line-clamp-3 flex-1">{post.excerpt}</p>
+                                    <div className='space-y-3 flex-grow'>
+                                        <h3 className='text-xl font-bold text-foreground group-hover:text-(--portfolio-accent) transition-colors line-clamp-2'>
+                                            {blog.title}
+                                        </h3>
+                                        <p className='text-sm text-muted-foreground line-clamp-3 leading-relaxed'>
+                                            {blog.excerpt || "Click to read the full article about " + blog.title}
+                                        </p>
+                                    </div>
 
-                                    <div className="flex items-center gap-2 text-(--portfolio-accent) group-hover:gap-3 transition-all font-medium mt-auto">
+                                    <Link
+                                        href={`/blog/${blog._id}`}
+                                        className='inline-flex items-center gap-2 text-sm font-bold text-(--portfolio-accent) hover:gap-3 transition-all group/btn'
+                                        aria-label={`Read more about ${blog.title}`}
+                                    >
                                         Read More
-                                        <ArrowRight className="w-4 h-4" />
-                                    </div>
+                                        <ArrowRight className='w-4 h-4 transition-transform group-hover/btn:translate-x-1' />
+                                    </Link>
                                 </div>
-                            </article>
-                        </Link>
-                    ))}
-                </div>
-                {/* <div className="text-center mt-12">
-                    <button className="px-6 py-3 border-2 border-(--portfolio-accent) text-(--portfolio-accent) hover:bg-(--portfolio-accent) hover:text-white rounded-lg transition-all duration-300 hover:scale-105">
-                        View All Articles
-                    </button>
-                </div> */}
+                            </motion.div>
+                        );
+                    })}
+                </motion.div>
             </div>
         </section>
     )

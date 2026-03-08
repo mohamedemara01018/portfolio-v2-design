@@ -124,6 +124,7 @@ function SkillDialog({ isOpen, isEdit, setOpen, skill, setNotification }: { isOp
                             <option value="frontend">frontend</option>
                             <option value="backend">backend</option>
                             <option value="database">database</option>
+                            <option value="tools">tools</option>
                             <option value="devops">devops</option>
                             <option value="design">design</option>
                         </select>

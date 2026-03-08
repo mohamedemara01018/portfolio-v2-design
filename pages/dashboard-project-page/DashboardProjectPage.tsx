@@ -152,11 +152,11 @@ function DashboardProjectPage({ projects }: { projects: Project[] }) {
                                                     />
                                                 </td>
 
-                                                <td className="px-4 py-3 font-medium whitespace-nowrap">
+                                                <td className="px-4 py-3 font-medium whitespace-nowrap max-w-40 truncate">
                                                     {project.title}
                                                 </td>
 
-                                                <td className="px-4 py-3 max-w-xs truncate">
+                                                <td className="px-4 py-3 max-w-40 truncate">
                                                     {project.description}
                                                 </td>
 
@@ -164,13 +164,13 @@ function DashboardProjectPage({ projects }: { projects: Project[] }) {
                                                     {project.category}
                                                 </td>
 
-                                                <td className="px-4 py-3 max-w-xs truncate text-blue-500">
+                                                <td className="px-4 py-3 max-w-40 truncate text-blue-500">
                                                     <Link href={typeof project.liveUrl === 'string' ? project.liveUrl : '/'} target='_blank'>
                                                         {project.liveUrl}
                                                     </Link>
                                                 </td>
 
-                                                <td className="px-4 py-3 max-w-xs truncate text-blue-500">
+                                                <td className="px-4 py-3 max-w-40 truncate text-blue-500">
                                                     <Link href={typeof project.githubUrl === 'string' ? project.githubUrl : '/'} target='_blank'>
                                                         {project.githubUrl}
                                                     </Link>

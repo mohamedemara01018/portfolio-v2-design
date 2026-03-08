@@ -7,6 +7,7 @@ import { useState } from 'react';
 import SkillDialog from '@/components/skill-dialog/SkillDialog';
 import { SkillsData, SkillService } from '@/services/skill.service';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import Notification, { NotificationState } from '@/components/notification/Notification';
 
 function DashboardSkillsPage({ skills }: { skills: SkillsData[] }) {
@@ -92,7 +93,15 @@ function DashboardSkillsPage({ skills }: { skills: SkillsData[] }) {
                                     <tr key={idx} className="border-t border-border">
                                         <td className="px-4 py-3 font-medium">
                                             <div className="flex items-center gap-3">
-                                                <img src={typeof skill.icon == 'string' ? skill.icon : 'https://images.pexels.com/photos/417458/pexels-photo-417458.jpeg'} alt={skill.name} className="w-6 h-6 object-contain" />
+                                                <div className="relative w-6 h-6">
+                                                    <Image
+                                                        src={typeof skill.icon == 'string' ? skill.icon : 'https://images.pexels.com/photos/417458/pexels-photo-417458.jpeg'}
+                                                        alt={skill.name}
+                                                        fill
+                                                        className="object-contain"
+                                                        sizes="24px"
+                                                    />
+                                                </div>
                                                 {skill.name}
                                             </div>
                                         </td>
@@ -111,10 +120,10 @@ function DashboardSkillsPage({ skills }: { skills: SkillsData[] }) {
                                         </td>
                                         <td className='px-4 py-3'>
                                             <div className="flex items-center justify-end gap-1">
-                                                <button onClick={() => handleEdit(skill)} className='text-muted-foreground w-8 h-8 hover:bg-accent rounded-md flex items-center justify-center transition-colors'>
+                                                <button onClick={() => handleEdit(skill)} className='text-muted-foreground w-8 h-8 hover:bg-accent rounded-md flex items-center justify-center transition-colors' aria-label={`Edit ${skill.name}`}>
                                                     <SquarePen className='w-4 h-4' />
                                                 </button>
-                                                <button onClick={() => deleteSkill(skill._id!)} className='text-muted-foreground w-8 h-8 hover:bg-destructive hover:text-destructive-foreground rounded-md flex items-center justify-center transition-colors'>
+                                                <button onClick={() => deleteSkill(skill._id!)} className='text-muted-foreground w-8 h-8 hover:bg-destructive hover:text-white rounded-md flex items-center justify-center transition-colors' aria-label={`Delete ${skill.name}`}>
                                                     <Trash className='w-4 h-4' />
                                                 </button>
                                             </div>

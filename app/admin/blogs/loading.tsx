@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
+import Loading from '@/components/loading/Loading';
 
-function loading() {
+export default function AdminLoading() {
   return (
-    <div>loading</div>
-  )
+    <div className="flex h-full w-full items-center justify-center p-8">
+      <Loading label="Fetching Blog data..." size={50} />
+    </div>
+  );
 }
-
-export default loading

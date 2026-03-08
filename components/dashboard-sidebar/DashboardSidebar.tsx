@@ -1,7 +1,8 @@
 'use client';
 import { FileText, FolderGit2, Home, LayoutDashboard, Award, Briefcase, MessageSquare, Settings } from 'lucide-react';
 import Link from 'next/link';
-import React, { useState } from 'react'
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react'
 
 interface DashboardSidebarProbs {
   className: string
@@ -9,14 +10,29 @@ interface DashboardSidebarProbs {
 function DashboardSidebar({ className }: DashboardSidebarProbs) {
   const [activeLink, setActiveLink] = useState('Hero Section');
   const navItems = [
-    { icon: Home, label: "Hero Section", href: "admin" },
-    { icon: FolderGit2, label: "Projects", href: "admin/projects" },
-    { icon: Award, label: "Certificates", href: "admin/certificates" },
-    { icon: FileText, label: "Blog Posts", href: "admin/blogs" },
-    { icon: Award, label: "Skills", href: "admin/skills" },
-    { icon: Briefcase, label: "Experience", href: "admin/experiences" },
-    { icon: MessageSquare, label: "Messages", href: "admin/messages" },
+    { icon: Home, label: "Hero Section", href: "/admin" },
+    { icon: FolderGit2, label: "Projects", href: "/admin/projects" },
+    { icon: Award, label: "Certificates", href: "/admin/certificates" },
+    { icon: FileText, label: "Blog Posts", href: "/admin/blogs" },
+    { icon: Award, label: "Skills", href: "/admin/skills" },
+    { icon: Briefcase, label: "Experience", href: "/admin/experiences" },
+    { icon: MessageSquare, label: "Messages", href: "/admin/messages" },
   ];
+
+  const pathName = usePathname();
+
+  useEffect(() => {
+    navItems.map((item) => {
+      if (String(item.href).trim() == String(pathName).trim() || String(pathName).trim() == '/admin/blogs/create') {
+        if (String(pathName).trim() == '/admin/blogs/create') {
+          setActiveLink('Blog Posts')
+        } else {
+          setActiveLink(item.label)
+        }
+      }
+    })
+  }, [pathName])
+
 
   return (
     <div className={`fixed top-0 bottom-0 left-0 p-4 w-70 bg-background dark:bg-(--portfolio-bg-secondary) border border-r border-border  shadow-sm ${className}`}>
@@ -40,8 +56,8 @@ function DashboardSidebar({ className }: DashboardSidebarProbs) {
                   return (
                     <li key={idx}>
                       <Link
-                        onClick={() => setActiveLink(item.label)}
-                        href={`/${item.href}`}
+
+                        href={`${item.href}`}
                         className={`flex gap-2 text-muted-foreground w-full py-3 px-4 rounded-md ${activeLink == item.label ? '' : 'hover:bg-accent hover:text-(--portfolio-accent)'}  ${activeLink == item.label ? 'bg-(--portfolio-accent-hover) text-white' : ''}`}>
                         <Icon className='' />
                         <p className=''>{item.label}</p>

@@ -4,6 +4,7 @@ import ThemeToggle from "../theme-toggle/ThemeToggle";
 import { List } from "lucide-react";
 import Sidebar from "../sidebar/Sidebar";
 import { scrollToSection } from "@/utils/scrollToSection";
+import Link from "next/link";
 
 const navItems = [
     { id: "home", label: "Home" },
@@ -12,6 +13,7 @@ const navItems = [
     { id: "experience", label: "Experience" },
     { id: "projects", label: "Projects" },
     { id: "blog", label: "Blog" },
+    { id: "certificates", label: "Certificates" },
     { id: "contact", label: "Contact" },
 ];
 
@@ -58,8 +60,9 @@ export default function Navbar() {
                 "experience",
                 "projects",
                 "blog",
+                'certificates',
                 "contact",
-                "admin",
+               
             ];
             const scrollPosition = window.scrollY + 150;
 
@@ -88,9 +91,9 @@ export default function Navbar() {
         <>
             <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 px-6 py-4 border-b-2 ${isScrolled ? 'bg-background/80 backdrop-blur-lg border-b border-border shadow-sm' : 'bg-transparent'} `}>
                 <div className="wrapper flex items-center justify-between">
-                    <button >
-                        <h1 className="hover:text-(--portfolio-accent)">portfolio</h1>
-                    </button>
+                    <Link href="/" className="group" aria-label="Go to home page">
+                        <h1 className="text-xl font-bold hover:text-(--portfolio-accent) transition-colors lowercase tracking-tighter">portfolio</h1>
+                    </Link>
 
                     {!sidebarCollapsed && <div className="flex items-center gap-8 max-md:hidden">
                         {navItems.map((item) => (
@@ -110,7 +113,9 @@ export default function Navbar() {
                         {
                             sidebarCollapsed && <button
                                 onClick={() => setSidebarOpen(true)}
-                                className='p-2 rounded-xl hover:bg-accent transition-all duration-300 hover:scale-110'>
+                                className='p-2 rounded-xl hover:bg-accent transition-all duration-300 hover:scale-110'
+                                aria-label="Open mobile menu"
+                            >
                                 <List className="w-5 h-5 text-foreground" />
                             </button>
                         }
