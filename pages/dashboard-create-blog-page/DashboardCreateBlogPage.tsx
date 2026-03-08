@@ -15,15 +15,24 @@ function DashboardCreateBlogPage({ isEdit, blog }: { isEdit?: boolean, blog?: bl
     const [notification, setNotification] = useState<NotificationState | null>(null);
     const [error, setError] = useState<Partial<Record<keyof blogData, string>>>();
     const [loading, setLoading] = useState(false)
-    const [formData, setFormData] = useState<blogData>(blog ? { ...blog, tags: JSON.parse(blog.tags[0]) } : {
-        coverImage: '',
-        title: '',
-        excerpt: '',
-        content: '',
-        tags: [] as string[],
-        published: false,
-        views: 0,
-        createdAt: new Date(),
+    const [formData, setFormData] = useState<blogData>(() => {
+        if (blog && blog.tags && blog.tags[0]) {
+            try {
+                return { ...blog, tags: JSON.parse(blog.tags[0]) };
+            } catch (e) {
+                return { ...blog, tags: [] };
+            }
+        }
+        return blog ? { ...blog, tags: blog.tags || [] } : {
+            coverImage: '',
+            title: '',
+            excerpt: '',
+            content: '',
+            tags: [] as string[],
+            published: false,
+            views: 0,
+            createdAt: new Date(),
+        };
     });
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

@@ -57,10 +57,9 @@ function DashboardSkillsPage({ skills }: { skills: SkillsData[] }) {
         }
     }
 
-    const filteredSkills = skills.filter((skill) => {
-        return skill.name.toLowerCase().includes(searchTerm) ||
-            skill.category.toLowerCase().includes(searchTerm);
-
+    const filteredSkills = (skills || []).filter((skill) => {
+        return skill.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            skill.category?.toLowerCase().includes(searchTerm.toLowerCase());
     })
 
 

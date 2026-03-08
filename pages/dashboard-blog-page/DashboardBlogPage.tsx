@@ -17,11 +17,11 @@ function DashboardBlogPage({ blogs }: { blogs: blogData[] }) {
     const [deleting, setDeleting] = useState(false)
 
     const normalizedSearch = searchTerm.toLowerCase().trim();
-    const filteredBlogs = blogs.filter((blog) => {
+    const filteredBlogs = (blogs || []).filter((blog) => {
         return (
-            blog.title.toLowerCase().includes(normalizedSearch) ||
-            blog.excerpt.toLowerCase().includes(normalizedSearch) ||
-            blog.tags.some(tag =>
+            blog.title?.toLowerCase().includes(normalizedSearch) ||
+            blog.excerpt?.toLowerCase().includes(normalizedSearch) ||
+            blog.tags?.some(tag =>
                 tag.toLowerCase().includes(normalizedSearch)
             )
         );
@@ -97,8 +97,8 @@ function DashboardBlogPage({ blogs }: { blogs: blogData[] }) {
                                             <td className="px-4 py-3">
                                                 <div className="flex flex-wrap gap-1 max-w-50">
                                                     {
-                                                        blog.tags && JSON.parse(blog.tags[0]).map((tag: string) =>
-                                                            <span className="bg-accent text-xs rounded-full px-2 py-1">{tag}</span>)
+                                                        blog.tags?.[0] ? JSON.parse(blog.tags[0]).map((tag: string) =>
+                                                            <span key={tag} className="bg-accent text-xs rounded-full px-2 py-1">{tag}</span>) : null
                                                     }
                                                 </div>
                                             </td>

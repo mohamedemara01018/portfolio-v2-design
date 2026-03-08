@@ -13,7 +13,7 @@ async function page() {
         blogs = Array.isArray(blogsArr) ? blogsArr : []
         console.log(blogs)
     } catch (error) {
-        console.error("Error fetching certificates:", error);
+        console.error("Error fetching blogs:", error);
     }
     return (
         <>
