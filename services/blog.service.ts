@@ -20,7 +20,10 @@ export const blogService = {
     getAllBlogs: async () => {
 
         try {
-            let response = await fetch(`${baseUrl}/blogs`);
+            let response = await fetch(`${baseUrl}/blogs`, {
+                cache: 'no-store'
+            });
+            
             if (!response.ok) {
                 throw new Error("Failed to fetch blogs");
             }
