@@ -114,6 +114,7 @@ function DashboardProjectPage({ projects }: { projects: Project[] }) {
             setLoading(false)
         }
     }
+    console.log(projects)
     return (
         <>
             <div className='space-y-8 w-full max-w-full overflow-hidden'>

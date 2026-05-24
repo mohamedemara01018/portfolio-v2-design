@@ -21,6 +21,7 @@ function ProjectDialog({ isOpen, isEdit, loading, setOpen, onSubmit, project }: 
     const [formData, setFormData] = useState<Project>({ ...project });
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setFormData({ ...project })
     }, [project])
 
