@@ -1,4 +1,4 @@
-import DashboardHeroPage, { DashboardHeroPageProbs } from '@/pages/dashboard-hero-page/DashboardHeroPage'
+import DashboardHeroPage, { DashboardHeroPageProbs } from '@/views/dashboard-hero-page/DashboardHeroPage'
 import { ProfileInfoService } from '@/services/profileInfo.service';
 import { baseUrl } from '@/utils/baseUrl';
 import React from 'react'

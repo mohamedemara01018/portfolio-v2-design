@@ -3,7 +3,7 @@ import DialogHeader from '../dialog-header/DialogHeader'
 import InputFile from '../input-file/InputFile'
 import InputForm from '../input-form/InputForm'
 import TextareaForm from '../textarea-form/TextareaForm'
-import { Project } from '@/pages/dashboard-project-page/DashboardProjectPage'
+import { Project } from '@/views/dashboard-project-page/DashboardProjectPage'
 
 
 interface ProjectDialogProbs {

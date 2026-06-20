@@ -1,4 +1,4 @@
-import DashboardBlogPage from '@/pages/dashboard-blog-page/DashboardBlogPage'
+import DashboardBlogPage from '@/views/dashboard-blog-page/DashboardBlogPage'
 import { blogService } from '@/services/blog.service';
 import React from 'react'
 
@@ -8,10 +8,11 @@ async function page() {
 
     try {
 
-        let result = await blogService.getAllBlogs();
-        let blogsArr = result.data?.blogs || result.data || [];
+        const result = await blogService.getAllBlogs();
+        console.log('result', result)
+        const blogsArr = result.data?.blogs || result.data || [];
         blogs = Array.isArray(blogsArr) ? blogsArr : []
-        // console.log(blogs)
+        console.log(blogs)
 
     } catch (error) {
         console.error("Error fetching blogs:", error);

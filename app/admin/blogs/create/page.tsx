@@ -1,4 +1,4 @@
-import DashboardCreateBlogPage from "@/pages/dashboard-create-blog-page/DashboardCreateBlogPage"
+import DashboardCreateBlogPage from "@/views/dashboard-create-blog-page/DashboardCreateBlogPage"
 
 
 

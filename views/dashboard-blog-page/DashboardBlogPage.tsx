@@ -37,6 +37,7 @@ function DashboardBlogPage({ blogs }: { blogs: blogData[] }) {
             await blogService.deleteBlog(id)
             setNotification({ message: 'success to create blog', type: 'success' })
             router.refresh();
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error(error.message || 'Failed to delete Blog')
             setNotification({ message: 'Failed to create blog', type: 'error' })
@@ -55,7 +56,6 @@ function DashboardBlogPage({ blogs }: { blogs: blogData[] }) {
                         <thead className="bg-muted">
 
                             <tr>
-                                <th className="px-4 py-3 text-left">Cover image</th>
                                 <th className="px-4 py-3 text-left">Title</th>
                                 <th className="px-4 py-3 text-left">excerpt</th>
                                 <th className="px-4 py-3 text-left">Content</th>
@@ -63,8 +63,6 @@ function DashboardBlogPage({ blogs }: { blogs: blogData[] }) {
                                 <th className="px-4 py-3 text-left">published</th>
                                 <th className="px-4 py-3 text-left">views</th>
                                 <th className="px-4 py-3 text-left">Actions</th>
-
-
                             </tr>
                         </thead>
 
@@ -75,13 +73,6 @@ function DashboardBlogPage({ blogs }: { blogs: blogData[] }) {
                                     <tr><td className='text-center p-6' colSpan={8}>blogs not founded</td></tr>
                                     : filteredBlogs.map((blog, idx) => {
                                         return < tr key={idx} className="border-t border-border">
-                                            <td className="px-4 py-3">
-                                                {blog.coverImage ? <img
-                                                    src={typeof blog.coverImage == 'string' ? blog.coverImage : ''}
-                                                    alt="cover"
-                                                    className="w-16 h-16 rounded-md object-cover"
-                                                /> : ''}
-                                            </td>
 
                                             <td className="px-4 py-3 font-medium">
                                                 {blog.title}
@@ -98,7 +89,7 @@ function DashboardBlogPage({ blogs }: { blogs: blogData[] }) {
                                             <td className="px-4 py-3">
                                                 <div className="flex flex-wrap gap-1 max-w-50">
                                                     {
-                                                        blog.tags?.[0] ? JSON.parse(blog.tags[0]).map((tag: string) =>
+                                                        blog.tags ? blog.tags.map((tag: string) =>
                                                             <span key={tag} className="bg-accent text-xs rounded-full px-2 py-1">{tag}</span>) : null
                                                     }
                                                 </div>

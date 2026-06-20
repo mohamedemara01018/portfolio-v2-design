@@ -1,4 +1,3 @@
-import { DashboardHeroPageProbs } from "@/pages/dashboard-hero-page/DashboardHeroPage";
 import { baseUrl } from "../utils/baseUrl";
 
 export interface ProfileInfoData {

@@ -1,4 +1,4 @@
-import DashboardMessagePage from "@/pages/dashboard-message-page/DashboardMessagePage"
+import DashboardMessagePage from "@/views/dashboard-message-page/DashboardMessagePage"
 
 function page() {
     return (

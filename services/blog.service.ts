@@ -3,7 +3,6 @@ import { baseUrl } from '../utils/baseUrl'
 
 export interface blogData {
     _id?: string,
-    coverImage: File | string | null,
     title: string,
     content: string,
     excerpt: string,
@@ -20,7 +19,7 @@ export const blogService = {
     getAllBlogs: async () => {
 
         try {
-            let response = await fetch(`${baseUrl}/blogs`, {
+            const response = await fetch(`${baseUrl}/blogs`, {
                 cache: 'no-store'
             });
 
@@ -38,7 +37,7 @@ export const blogService = {
     getBlogById: async (id: string) => {
 
         try {
-            let response = await fetch(`${baseUrl}/blogs/${id}`);
+            const response = await fetch(`${baseUrl}/blogs/${id}`);
             if (!response.ok) {
                 throw new Error("Failed to fetch blogs");
             }
@@ -50,48 +49,52 @@ export const blogService = {
         }
     },
 
-    createBlog: async (formData: FormData) => {
+    createBlog: async (formData: blogData) => {
+        console.log(formData);
 
         try {
-            let response = await fetch(`${baseUrl}/blogs`, {
+            const response = await fetch(`${baseUrl}/blogs`, {
                 method: "POST",
-                body: formData
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
             });
 
-            if (!response.ok) {
-                throw new Error("Failed to create blog");
-            }
-            return response.json();
+            const data = await response.json();
 
+            if (!response.ok) {
+                throw new Error(data.message || "Failed to create blog");
+            }
+
+            return data;
         } catch (error) {
-            console.error('Error creating blog', error);
-            throw error
+            console.error("Error creating blog", error);
+            throw error;
         }
     },
 
-    updateBlog: async (id: string, formData: FormData) => {
-        try {
-            let response = await fetch(`${baseUrl}/blogs/${id}`, {
-                method: "PUT",
-                body: formData
-            })
+    updateBlog: async (id: string, data: blogData) => {
+        const response = await fetch(`${baseUrl}/blogs/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
 
-            if (!response.ok) {
-                throw new Error("Failed to upate blog");
-            }
+        const res = await response.json();
 
-            return response.json();
-
-        } catch (error) {
-            console.error("Error updateing blog")
-            throw error
+        if (!response.ok) {
+            throw new Error(res.message || "Failed to update blog");
         }
+        return res;
     },
 
     deleteBlog: async (id: string) => {
 
         try {
-            let response = await fetch(`${baseUrl}/blogs/${id}`, {
+            const response = await fetch(`${baseUrl}/blogs/${id}`, {
                 method: 'DELETE',
             })
 

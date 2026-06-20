@@ -1,4 +1,4 @@
-import DashboardProjectPage from "@/pages/dashboard-project-page/DashboardProjectPage"
+import DashboardProjectPage from "@/views/dashboard-project-page/DashboardProjectPage"
 import { projectService } from "@/services/project.service"
 
 

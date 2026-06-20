@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { blogService } from "@/services/blog.service";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, Calendar, Eye } from "lucide-react";
 import type { Metadata } from "next";
+import ReadOnlyPost from "@/components/read-only-post/ReadOnlyPost";
 
 type Props = {
     params: Promise<{ id: string }>
@@ -22,7 +24,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             openGraph: {
                 title: blog.title,
                 description: blog.excerpt || blog.content?.substring(0, 160),
-                images: [blog.coverImage || "/og-image.png"],
                 type: "article",
             },
         };
@@ -47,11 +48,11 @@ export default async function SingleBlogPage({ params }: Props) {
 
     if (!blog) {
         return (
-            <main className="py-32 bg-[color:var(--portfolio-bg-secondary)] min-h-screen">
+            <main className="py-32 bg-(--portfolio-bg-secondary) min-h-screen">
                 <div className="wrapper max-w-4xl mx-auto text-center">
                     <h1 className="text-4xl font-bold text-foreground">Blog Post Not Found</h1>
-                    <p className="mt-4 text-muted-foreground">The blog post you're looking for doesn't exist or has been removed.</p>
-                    <Link href="/#blog" className="mt-8 inline-flex items-center gap-2 text-[color:var(--portfolio-accent)] hover:underline">
+                    <p className="mt-4 text-muted-foreground">The blog post you&apos;re looking for doesn&apos;t exist or has been removed.</p>
+                    <Link href="/#blog" className="mt-8 inline-flex items-center gap-2 text-(--portfolio-accent) hover:underline">
                         <ArrowLeft className="w-4 h-4" />
                         Back to Portfolio
                     </Link>
@@ -60,29 +61,20 @@ export default async function SingleBlogPage({ params }: Props) {
         );
     }
 
-    const coverImageUrl = typeof blog.coverImage === 'string' ? blog.coverImage : "https://images.unsplash.com/photo-1760548425425-e42e77fa38f1";
-
     return (
-        <main className="py-32 bg-[color:var(--portfolio-bg-secondary)] min-h-screen">
+        <main className="py-32 bg-(--portfolio-bg-secondary) min-h-screen">
             <div className="wrapper max-w-4xl mx-auto space-y-8">
-                <Link href="/#blog" className="inline-flex items-center gap-2 text-muted-foreground hover:text-[color:var(--portfolio-accent)] transition-colors">
+                <Link href="/#blog" className="inline-flex items-center gap-2 text-muted-foreground hover:text-(--portfolio-accent) transition-colors">
                     <ArrowLeft className="w-4 h-4" />
                     Back to Blog List
                 </Link>
 
-                <article className="space-y-8 bg-card rounded-3xl overflow-hidden shadow-[color:var(--portfolio-shadow)] border border-border">
-                    <div className="relative aspect-video w-full overflow-hidden">
-                        <Image
-                            src={coverImageUrl}
-                            alt={blog.title}
-                            fill
-                            className="object-cover"
-                            priority
-                        />
+                <article className="space-y-8 bg-card rounded-3xl overflow-hidden shadow-(color:--portfolio-shadow) border border-border">
+                    <div className="relative w-full overflow-hidden">
                         {blog.tags && blog.tags.length > 0 && (
-                            <div className="absolute top-4 left-4 flex gap-2">
-                                {JSON.parse(blog.tags[0]).map((tag: string, index: number) => (
-                                    <span key={index} className="px-3 py-1 text-xs font-medium bg-[color:var(--portfolio-accent)] text-white rounded-full">
+                            <div className="p-8">
+                                {blog.tags.map((tag: string, index: number) => (
+                                    <span key={index} className="px-3 py-1 text-xs font-medium bg-(--portfolio-accent) text-white rounded-full">
                                         {tag}
                                     </span>
                                 ))}
@@ -107,7 +99,7 @@ export default async function SingleBlogPage({ params }: Props) {
                         </h1>
 
                         <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground leading-relaxed">
-                            <div dangerouslySetInnerHTML={{ __html: blog.content || blog.excerpt || '' }} />
+                            <ReadOnlyPost content={blog.content} />
                         </div>
                     </div>
                 </article>

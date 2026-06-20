@@ -1,4 +1,4 @@
-import DashboardSkillsPage from "@/pages/dashboard-skills-page/DashboardSkillsPage"
+import DashboardSkillsPage from "@/views/dashboard-skills-page/DashboardSkillsPage"
 import { SkillsData, SkillService } from "@/services/skill.service";
 
 async function page() {

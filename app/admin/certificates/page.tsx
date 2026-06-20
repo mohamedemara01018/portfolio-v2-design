@@ -1,4 +1,4 @@
-import DashboardCertificatesPage from '@/pages/dashboard-certificates-page/DashboardCertificatesPage';
+import DashboardCertificatesPage from '@/views/dashboard-certificates-page/DashboardCertificatesPage';
 import { CertificateService } from '@/services/certificate.service';
 import React from 'react';
 

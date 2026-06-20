@@ -1,4 +1,4 @@
-import DashboardExperiencePage from "@/pages/dashboard-experience-page/DashboardExperiencePage"
+import DashboardExperiencePage from "@/views/dashboard-experience-page/DashboardExperiencePage"
 
 function page() {
     return (
