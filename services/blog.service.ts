@@ -1,4 +1,5 @@
-import { baseUrl } from '../utils/baseUrl'
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 
 export interface blogData {
@@ -50,7 +51,7 @@ export const blogService = {
     },
 
     createBlog: async (formData: blogData) => {
-        console.log(formData);
+        console.log('baseUrl', baseUrl);
 
         try {
             const response = await fetch(`${baseUrl}/blogs`, {

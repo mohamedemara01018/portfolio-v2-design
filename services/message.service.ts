@@ -1,5 +1,4 @@
-import { baseUrl } from "../utils/baseUrl";
-
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 export interface MessageData {
     _id?: string;
     name: string;

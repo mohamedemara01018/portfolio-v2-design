@@ -1,4 +1,4 @@
-import { baseUrl } from "@/utils/baseUrl"
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 export interface ProjectData {
     _id?: string;
     title: string;

@@ -1,4 +1,5 @@
-import { baseUrl } from "@/utils/baseUrl"
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
 
 export interface SkillsData {
     _id?: string,
@@ -11,7 +12,7 @@ export const SkillService = {
 
     getAllSkills: async () => {
         try {
-            let response = await fetch(`${baseUrl}/skills`,{
+            const response = await fetch(`${baseUrl}/skills`, {
                 cache: 'no-store'
             });
 
@@ -21,6 +22,7 @@ export const SkillService = {
 
             return response.json()
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error(error.message || 'Error fetch skills')
             throw error
@@ -41,6 +43,7 @@ export const SkillService = {
 
             return response.json();
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error(error.message || 'Error create skill')
             throw error
@@ -62,6 +65,7 @@ export const SkillService = {
 
             return response.json();
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error(error.message || 'Error update skill')
             throw error
@@ -82,6 +86,7 @@ export const SkillService = {
 
             return response.json();
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error(error.message || 'Error delete skill')
             throw error
