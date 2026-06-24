@@ -116,6 +116,33 @@ function ProjectsSection({ projects }: ProjectsSectionProps) {
                                                 </span>
                                             ))}
                                         </div>
+                                        <hr className='w-full h-2' />
+                                        <div className='flex xl:hidden'>
+                                            {item.liveUrl && (
+                                                <motion.a
+                                                    href={item.liveUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="p-3 rounded-full bg-white text-gray-900 hover:scale-110 transition-transform"
+                                                    whileHover={{ scale: 1.1 }}
+                                                    whileTap={{ scale: 0.9 }}
+                                                >
+                                                    <ExternalLink className="w-6 h-6" />
+                                                </motion.a>
+                                            )}
+                                            {item.githubUrl && (
+                                                <motion.a
+                                                    href={item.githubUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="p-3 rounded-full bg-white text-gray-900 hover:scale-110 transition-transform"
+                                                    whileHover={{ scale: 1.1 }}
+                                                    whileTap={{ scale: 0.9 }}
+                                                >
+                                                    <Github className="w-6 h-6" />
+                                                </motion.a>
+                                            )}
+                                        </div>
                                     </div>
                                 </motion.div>
                             );
