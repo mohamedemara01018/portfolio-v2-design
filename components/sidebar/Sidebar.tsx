@@ -17,6 +17,7 @@ function Sidebar({ isOpen, setClose }: SidebarProbs) {
         { id: "experience", label: "Experience" },
         { id: "projects", label: "Projects" },
         { id: "blog", label: "Blog" },
+        { id: "certificates", label: "Certificates" },
         { id: "contact", label: "Contact" },
 
     ];

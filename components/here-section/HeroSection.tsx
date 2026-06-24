@@ -47,6 +47,7 @@ const imageVariants: Variants = {
 function HeroSection({ profileInfo }: HeroSectionProps) {
     if (!profileInfo) return null;
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const socialLinks = useMemo(() => [
         { link: profileInfo?.github, icon: Github, label: "GitHub" },
         { link: profileInfo?.linkedin, icon: Linkedin, label: "LinkedIn" },
@@ -56,7 +57,7 @@ function HeroSection({ profileInfo }: HeroSectionProps) {
     ], [profileInfo]);
 
     return (
-        <section id='home' className='min-h-screen flex items-center justify-center pt-24 pb-12 overflow-hidden bg-gradient-to-b from-background to-background/50'>
+        <section id='home' className='min-h-screen  flex items-center justify-center pt-35 max:pt-24 pb-12 overflow-hidden bg-linear-to-b from-background to-background/50'>
             <div className='wrapper w-full grid lg:grid-cols-2 gap-12 lg:gap-8 items-center'>
                 <motion.div
                     className='space-y-8 text-center lg:text-left order-2 lg:order-1'
@@ -75,7 +76,7 @@ function HeroSection({ profileInfo }: HeroSectionProps) {
                             variants={itemVariants}
                             className='text-4xl sm:text-5xl md:text-7xl font-bold text-foreground leading-[1.1]'
                         >
-                            Hi, I'm <span className='text-(--portfolio-accent)'>{profileInfo?.fullName}</span>
+                            Hi, I&apos;m <span className='text-(--portfolio-accent)'>{profileInfo?.fullName}</span>
                         </motion.h1>
                         <motion.h2
                             variants={itemVariants}
@@ -142,7 +143,7 @@ function HeroSection({ profileInfo }: HeroSectionProps) {
                     initial="hidden"
                     animate="visible"
                 >
-                    <div className='relative w-64 h-64 sm:w-80 h-80 md:w-96 md:h-96 group'>
+                    <div className='relative w-64 sm:w-80 h-80 md:w-96 md:h-96 group'>
                         <div className='absolute inset-0 rounded-full bg-(--portfolio-accent) scale-105 opacity-20 blur-2xl group-hover:opacity-40 transition-opacity duration-500'></div>
                         <div className='relative w-full h-full rounded-full overflow-hidden border-4 border-foreground shadow-2xl'>
                             <Image
