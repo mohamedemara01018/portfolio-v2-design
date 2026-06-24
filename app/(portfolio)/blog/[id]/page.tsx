@@ -72,7 +72,7 @@ export default async function SingleBlogPage({ params }: Props) {
                 <article className="space-y-8 bg-card rounded-3xl overflow-hidden shadow-(color:--portfolio-shadow) border border-border">
                     <div className="relative w-full overflow-hidden">
                         {blog.tags && blog.tags.length > 0 && (
-                            <div className="p-8">
+                            <div className="p-8 flex gap-2 flex-wrap">
                                 {blog.tags.map((tag: string, index: number) => (
                                     <span key={index} className="px-3 py-1 text-xs font-medium bg-(--portfolio-accent) text-white rounded-full">
                                         {tag}

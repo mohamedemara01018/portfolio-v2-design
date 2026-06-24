@@ -3,7 +3,6 @@ import React from 'react'
 import TitleOfSection from '../title-of-section/TitleOfSection'
 import { ArrowRight, Calendar, Eye } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion, Variants } from 'framer-motion'
 
 interface Blog {
@@ -76,12 +75,15 @@ function BlogsSection({ blogs }: BlogsSectionProps) {
                                     variants={itemVariants}
                                     className='group bg-background rounded-3xl overflow-hidden border border-border hover:border-(--portfolio-accent) transition-all duration-500 hover:shadow-(--portfolio-glow) flex flex-col'
                                 >
-                                    <div className='relative p-4 overflow-hidden'>
-                                        {Array.isArray(blog.tags) && blog.tags.map((tag: string, tagIdx: number) => (
-                                            <span key={tagIdx} className='px-3 py-1 text-[10px] font-bold uppercase tracking-wider bg-black/50 text-white rounded-lg backdrop-blur-md'>
-                                                {tag}
-                                            </span>
-                                        ))}
+                                    <div className='flex flex-wrap gap-2 relative p-4 overflow-hidden '>
+                                        {Array.isArray(blog.tags) && blog.tags.map((tag: string, tagIdx: number) => {
+                                            console.log(tag)
+                                            return (
+                                                <span key={tagIdx} className=' px-2.5 py-0.5 text-[10px]  font-semibold bg-accent/60 text-(--portfolio-accent)  rounded-md border border-border/40 uppercase tracking-wider'>
+                                                    {tag}
+                                                </span>
+                                            )
+                                        })}
                                     </div>
 
                                     <div className='p-8 flex flex-col grow space-y-4'>
