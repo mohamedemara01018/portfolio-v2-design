@@ -5,7 +5,8 @@ import { List } from "lucide-react";
 import Sidebar from "../sidebar/Sidebar";
 import { scrollToSection } from "@/utils/scrollToSection";
 import Link from "next/link";
-
+import logo from '@/public/Gemini_Generated_Image_gcfpjlgcfpjlgcfp.png'
+import Image from "next/image";
 const navItems = [
     { id: "home", label: "Home" },
     { id: "about", label: "About" },
@@ -21,7 +22,7 @@ const navItems = [
 
 export default function Navbar() {
 
-    const [isScrolled, setIsScrolled] = useState<Boolean>(false);
+    const [isScrolled, setIsScrolled] = useState<boolean>(false);
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [activeSection, setActiveSection] = useState("home");
@@ -62,7 +63,7 @@ export default function Navbar() {
                 "blog",
                 'certificates',
                 "contact",
-               
+
             ];
             const scrollPosition = window.scrollY + 150;
 
@@ -91,8 +92,9 @@ export default function Navbar() {
         <>
             <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 px-6 py-4 border-b-2 ${isScrolled ? 'bg-background/80 backdrop-blur-lg border-b border-border shadow-sm' : 'bg-transparent'} `}>
                 <div className="wrapper flex items-center justify-between">
-                    <Link href="/" className="group" aria-label="Go to home page">
-                        <h1 className="text-xl font-bold hover:text-(--portfolio-accent) transition-colors lowercase tracking-tighter">portfolio</h1>
+                    <Link href="/" className="group w-20 h-20 rounded-full overflow-hidden" aria-label="Go to home page">
+                        {/* <h1 className="text-xl font-bold hover:text-(--portfolio-accent) transition-colors lowercase tracking-tighter">portfolio</h1> */}
+                        <Image src={logo} alt="" className="w-full h-full object-cover" />
                     </Link>
 
                     {!sidebarCollapsed && <div className="flex items-center gap-8 max-md:hidden">

@@ -38,7 +38,7 @@ const Loading: React.FC<LoadingProps> = ({
     }
 
     return (
-        <div className="flex h-full min-h-[200px] w-full items-center justify-center">
+        <div className="flex h-full min-h-50 w-full items-center justify-center">
             {content}
         </div>
     );
