@@ -6,7 +6,7 @@ export const scrollToSection = (id: string) => {
         const elementPosition: any = element?.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset
         window.scrollTo({
-            top: offsetPosition,
+            top: offsetPosition - 40,
             behavior: 'smooth'
         })
 
